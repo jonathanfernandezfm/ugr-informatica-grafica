@@ -20,7 +20,7 @@ Escena::Escena()
    cubo = new Cubo();
    tetraedro = new Tetraedro();
    ply = new ObjPLY("./plys/ant.ply");
-   objrev = new ObjRevolucion("./plys/lata-psup.ply", 30, false, false);
+   objrev = new ObjRevolucion("./plys/peon_inv.ply", 5, false, false);
 
    // crear los objetos de la escena....
    // .......completar: ...
@@ -61,7 +61,10 @@ void Escena::dibujar()
    glLineWidth(1);
    ejes.draw();
 
-   objrev->draw(SOLID, dibujado_vbo);
+   //objrev->draw(SOLID, dibujado_vbo);
+   // glPointSize(2);
+   // glPolygonMode(GL_FRONT, GL_POINT);
+   objrev->draw(CHESS, dibujado_vbo);
 
    if(chess){
       glPolygonMode(GL_FRONT, GL_FILL);
