@@ -1,6 +1,7 @@
 # Don't track content of these folders
 node_modules/
 someOtherfoler/
+.vscode/
 
 
 # Compiled source #
@@ -11,6 +12,7 @@ someOtherfoler/
 *.exe
 *.o
 *.so
+*exe
 
 *.so
 
