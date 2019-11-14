@@ -8,9 +8,9 @@ Tetraedro::Tetraedro()
 	// inicializar la tabla de vértices
 
 	vertex = {
-		{0.0f, 0.0f, 50.0f}, // 001
-		{50.0f, 0.0f, 0.0f}, // 100
-		{0.0f, 50.0f, 0.0f}, // 010
+		{0.0f, 0.0f, 1.0f}, // 001
+		{1.0f, 0.0f, 0.0f}, // 100
+		{0.0f, 1.0f, 0.0f}, // 010
 		{0.0f, 0.0f, 0.0f}   // 000
 	};
 

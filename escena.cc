@@ -19,8 +19,8 @@ Escena::Escena()
    ejes.changeAxisSize(5000);
    cubo = new Cubo();
    tetraedro = new Tetraedro();
-   ply = new ObjPLY("./plys/ant.ply");
-   objrev = new ObjRevolucion("./plys/peon_inv.ply", 5, false, false);
+   ply = new ObjPLY("./plys/beethoven.ply");
+   objrev = new ObjRevolucion("./plys/peon_inv.ply", 20, false, false);
 
    // crear los objetos de la escena....
    // .......completar: ...
@@ -64,58 +64,88 @@ void Escena::dibujar()
    //objrev->draw(SOLID, dibujado_vbo);
    // glPointSize(2);
    // glPolygonMode(GL_FRONT, GL_POINT);
-   objrev->draw(CHESS, dibujado_vbo);
 
    if(chess){
       glPolygonMode(GL_FRONT, GL_FILL);
-      tetraedro->draw(CHESS, dibujado_vbo);
+      if(showTetraedro)
+         tetraedro->draw(CHESS, dibujado_vbo);
       glPushMatrix();
-      glTranslatef(60, 0, 0);
-      cubo->draw(CHESS, dibujado_vbo);
+      glTranslatef(2, 0, 0);
+      if(showCubo)
+         cubo->draw(CHESS, dibujado_vbo);
       glPopMatrix();
       glPushMatrix();
-      glTranslatef(-20,0,0);
-      ply->draw(CHESS, dibujado_vbo);
+      glTranslatef(-3,0,0);
+      if(showPly)
+         ply->draw(CHESS, dibujado_vbo);
+      glPopMatrix();
+      glPushMatrix();
+      glTranslatef(4,0,0);
+      if(showRevolucion)
+         objrev->draw(CHESS, dibujado_vbo);
       glPopMatrix();
    }else{
       if (points){
          glPointSize(5);
          glPolygonMode(GL_FRONT, GL_POINT);
-         tetraedro->draw(POINTS, dibujado_vbo);
+         if(showTetraedro)
+            tetraedro->draw(POINTS, dibujado_vbo);
          glPushMatrix();
-         glTranslatef(60, 0, 0);
-         cubo->draw(POINTS, dibujado_vbo);
+         glTranslatef(2, 0, 0);
+         if(showCubo)
+            cubo->draw(POINTS, dibujado_vbo);         glPopMatrix();
+         glPushMatrix();
+         glTranslatef(-3,0,0);
+         if(showPly)
+            ply->draw(POINTS, dibujado_vbo);
          glPopMatrix();
          glPushMatrix();
-         glTranslatef(-20,0,0);
-         ply->draw(POINTS, dibujado_vbo);
+         glTranslatef(4,0,0);
+         if(showRevolucion)
+            objrev->draw(POINTS, dibujado_vbo);
          glPopMatrix();
       }
 
       if (solid){
          glPolygonMode(GL_FRONT, GL_FILL);
-         tetraedro->draw(SOLID, dibujado_vbo);
+         if(showTetraedro)
+            tetraedro->draw(SOLID, dibujado_vbo);
          glPushMatrix();
-         glTranslatef(60, 0, 0);
-         cubo->draw(SOLID, dibujado_vbo);
+         glTranslatef(2, 0, 0);
+         if(showCubo)
+            cubo->draw(SOLID, dibujado_vbo);         
          glPopMatrix();
          glPushMatrix();
-         glTranslatef(-20,0,0);
-         ply->draw(SOLID, dibujado_vbo);
+         glTranslatef(-3,0,0);
+         if(showPly)
+            ply->draw(SOLID, dibujado_vbo);
+         glPopMatrix();
+         glPushMatrix();
+         glTranslatef(4,0,0);
+         if(showRevolucion)
+            objrev->draw(SOLID, dibujado_vbo);
          glPopMatrix();
       }
 
       if (lines){
          glLineWidth(3);
          glPolygonMode(GL_FRONT, GL_LINE);
-         tetraedro->draw(LINES, dibujado_vbo);
+         if(showTetraedro)
+            tetraedro->draw(LINES, dibujado_vbo);
          glPushMatrix();
-         glTranslatef(60, 0, 0);
-         cubo->draw(LINES, dibujado_vbo);
+         glTranslatef(2, 0, 0);
+         if(showCubo)
+            cubo->draw(LINES, dibujado_vbo);         
          glPopMatrix();
          glPushMatrix();
-         glTranslatef(-20,0,0);
-         ply->draw(LINES, dibujado_vbo);
+         glTranslatef(-3,0,0);
+         if(showPly)
+            ply->draw(LINES, dibujado_vbo);
+         glPopMatrix();
+         glPushMatrix();
+         glTranslatef(4,0,0);
+         if(showRevolucion)
+            objrev->draw(LINES, dibujado_vbo);
          glPopMatrix();
       }
    }
@@ -134,7 +164,7 @@ bool Escena::teclaPulsada(unsigned char tecla, int x, int y)
    using namespace std;
    bool salir = false;
    string clear = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-   string menuObjeto = "***SELECCION DE OBJETO***\n\t'C': Cubo\n\t'T': Tetraedro\n\t'Q': Salir";
+   string menuObjeto = "***SELECCION DE OBJETO***\n\t'C': Cubo\n\t'T': Tetraedro\n\t'R': Revolucion\n\t'P': PLY\n\t'Q': Salir";
    string menuVisualizacion = "***SELECCION DE MODO DE VISUALIZACION***\n\t'P': Puntos\n\t'L': Lineas\n\t'S': Solido\n\t'A': Ajedrez\n\t'Q': Salir";
    string menuDibujado = "***SELECCION DE MODO DE DIBUJADO***\n\t'1': glDrawElements\n\t'2': VBOs\n\t'Q': Salir";
    string menuSeleccion = "***Menu***\n\t'O': SELECION DE OBJETO\n\t'V': SELECCION MODO VISUALIZACION\n\t'D': SELECCION MODO DIBUJADO\n\t'Q': Salir";
@@ -150,6 +180,14 @@ bool Escena::teclaPulsada(unsigned char tecla, int x, int y)
       case 'T':
          showTetraedro = !showTetraedro;
          cout << ">>>>>>>> TETRAEDRO: " << showTetraedro << " <<<<<<<<" << endl;
+         break;
+      case 'R':
+         showRevolucion = !showRevolucion;
+         cout << ">>>>>>>> REVOLUCION: " << showTetraedro << " <<<<<<<<" << endl;
+         break;
+      case 'P':
+         showPly = !showPly;
+         cout << ">>>>>>>> REVOLUCION: " << showTetraedro << " <<<<<<<<" << endl;
          break;
       case 'Q':
          modoMenu = NADA;

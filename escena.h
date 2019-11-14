@@ -39,6 +39,8 @@ private:
 
     bool showCubo = false;
     bool showTetraedro = false;
+    bool showRevolucion = false;
+    bool showPly = false;
     bool points = false, lines = false, solid = false, chess = false;
     bool dibujado_vbo = false;
 
