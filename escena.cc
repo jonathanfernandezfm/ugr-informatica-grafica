@@ -11,9 +11,9 @@
 
 Escena::Escena()
 {
-   Front_plane = 50.0;
+   Front_plane = 0.1;
    Back_plane = 2000.0;
-   Observer_distance = 4 * Front_plane;
+   Observer_distance = 2.0;
    Observer_angle_x = 0.0;
    Observer_angle_y = 0.0;
    ejes.changeAxisSize(5000);
@@ -329,10 +329,11 @@ void Escena::teclaEspecial(int Tecla1, int x, int y)
 
 void Escena::change_projection(const float ratio_xy)
 {
-   glMatrixMode(GL_PROJECTION);
+   glMatrixMode( GL_PROJECTION );
    glLoadIdentity();
-   const float wx = float(Height) * ratio_xy;
-   glFrustum(-wx, wx, -Height, Height, Front_plane, Back_plane);
+   const float wy = 0.84*Front_plane ,
+   wx = ratio_xy*wy;
+   glFrustum( -wx, +wx, -wy, +wy, Front_plane, Back_plane );
 }
 //**************************************************************************
 // Funcion que se invoca cuando cambia el tamaño de la ventana
@@ -340,8 +341,8 @@ void Escena::change_projection(const float ratio_xy)
 
 void Escena::redimensionar(int newWidth, int newHeight)
 {
-   Width = newWidth / 100;
-   Height = newHeight / 100;
+   Width = newWidth;
+   Height = newHeight;
    change_projection(float(newHeight) / float(newWidth));
    glViewport(0, 0, newWidth, newHeight);
 }
