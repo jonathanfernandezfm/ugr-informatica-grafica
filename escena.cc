@@ -20,11 +20,7 @@ Escena::Escena()
    cubo = new Cubo();
    tetraedro = new Tetraedro();
    ply = new ObjPLY("./plys/beethoven.ply");
-   objrev = new ObjRevolucion("./plys/peon_inv.ply", 20, false, false);
-
-   // crear los objetos de la escena....
-   // .......completar: ...
-   // .....
+   objrev = new ObjRevolucion("./plys/peon.ply", 20, true);
 }
 
 //**************************************************************************
@@ -61,10 +57,6 @@ void Escena::dibujar()
    glLineWidth(1);
    ejes.draw();
 
-   //objrev->draw(SOLID, dibujado_vbo);
-   // glPointSize(2);
-   // glPolygonMode(GL_FRONT, GL_POINT);
-
    if(chess){
       glPolygonMode(GL_FRONT, GL_FILL);
       if(showTetraedro)
@@ -93,7 +85,8 @@ void Escena::dibujar()
          glPushMatrix();
          glTranslatef(2, 0, 0);
          if(showCubo)
-            cubo->draw(POINTS, dibujado_vbo);         glPopMatrix();
+            cubo->draw(POINTS, dibujado_vbo);         
+         glPopMatrix();
          glPushMatrix();
          glTranslatef(-3,0,0);
          if(showPly)
@@ -183,11 +176,11 @@ bool Escena::teclaPulsada(unsigned char tecla, int x, int y)
          break;
       case 'R':
          showRevolucion = !showRevolucion;
-         cout << ">>>>>>>> REVOLUCION: " << showTetraedro << " <<<<<<<<" << endl;
+         cout << ">>>>>>>> REVOLUCION: " << showRevolucion << " <<<<<<<<" << endl;
          break;
       case 'P':
          showPly = !showPly;
-         cout << ">>>>>>>> REVOLUCION: " << showTetraedro << " <<<<<<<<" << endl;
+         cout << ">>>>>>>> PLY: " << showPly << " <<<<<<<<" << endl;
          break;
       case 'Q':
          modoMenu = NADA;
