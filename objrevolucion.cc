@@ -115,8 +115,6 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
       }
    }
 
-   std::cout << order_down;
-
    if(conTapas){
       // INSERTAMOS POLO SUR Y CREAMOS SUS CARAS
       if(order_down){ // SI EL PERFIL ES DE MAYOR A MENOR
