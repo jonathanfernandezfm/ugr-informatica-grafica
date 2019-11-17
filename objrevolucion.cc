@@ -23,12 +23,6 @@ ObjRevolucion::ObjRevolucion(const std::string & archivo, int num_instancias, bo
    this->faces = {};
    ply::read_vertices(archivo, this->vertex);
    this->crearMalla(this->vertex, num_instancias, conTapas);
-
-   for(int i=0; i<this->vertex.size(); i++){
-      colors.push_back({50.0f, 0.0f, 0.0f});
-      colors1.push_back({0.0f, 50.0f, 0.0f});
-      colors2.push_back({0.0f, 0.0f, 50.0f});
-   }
 }
 
 // *****************************************************************************
@@ -74,9 +68,9 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
 
    size = this->vertex.size(); // NEW M
 
-   for(int i=0; i<this->vertex.size(); i++){
-      std::cout << this->vertex[i] << std::endl;
-   }
+   // for(int i=0; i<this->vertex.size(); i++){
+   //    std::cout << this->vertex[i] << std::endl;
+   // }
 
    // VERTICES
    for(int i=1; i<=num_instancias; i++){
@@ -193,6 +187,13 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
                size*(i+1)-1
             });
          }
+      }
+
+      // COLORES
+      for(int i=0; i<this->vertex.size(); i++){
+         colors.push_back({50.0f, 0.0f, 0.0f});
+         colors1.push_back({0.0f, 50.0f, 0.0f});
+         colors2.push_back({0.0f, 0.0f, 50.0f});
       }
    }
 

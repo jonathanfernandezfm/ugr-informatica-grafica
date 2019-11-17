@@ -25,13 +25,14 @@
 
 class ObjRevolucion : public Malla3D
 {
-   public:
-    ObjRevolucion();
-    ObjRevolucion(const std::string & archivo, int num_instancias, bool conTapas=true) ;
-    ObjRevolucion(std::vector<Tupla3f> archivo, int num_instancias, bool tapa_sup=true, bool tapa_inf=true) ;
-private:
-    void crearMalla(std::vector<Tupla3f> perfil_original, int num_instancias, bool conTapas=true);
-    Tupla3f rotateX(Tupla3f vertice, double angle);
+    public:
+        ObjRevolucion();
+        ObjRevolucion(const std::string & archivo, int num_instancias, bool conTapas=true) ;
+        ObjRevolucion(std::vector<Tupla3f> archivo, int num_instancias, bool tapa_sup=true, bool tapa_inf=true) ;
+    private:
+        Tupla3f rotateX(Tupla3f vertice, double angle);
+    protected:
+        void crearMalla(std::vector<Tupla3f> perfil_original, int num_instancias, bool conTapas=true);
 } ;
 
 #endif

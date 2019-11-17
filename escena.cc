@@ -21,6 +21,7 @@ Escena::Escena()
    tetraedro = new Tetraedro();
    ply = new ObjPLY("./plys/beethoven.ply");
    objrev = new ObjRevolucion("./plys/peon.ply", 20, true);
+   cilindro = new Cilindro(0, 5, 1, 2);
 }
 
 //**************************************************************************
@@ -56,6 +57,8 @@ void Escena::dibujar()
    change_observer();
    glLineWidth(1);
    ejes.draw();
+
+   cilindro->draw(SOLID, dibujado_vbo);
 
    if(chess){
       glPolygonMode(GL_FRONT, GL_FILL);

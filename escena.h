@@ -7,6 +7,7 @@
 #include "tetraedro.h"
 #include "objply.h"
 #include "objrevolucion.h"
+#include "cilindro.h"
 #include "enums.h"
 
 typedef enum
@@ -52,6 +53,7 @@ private:
     Tetraedro *tetraedro = nullptr; // es importante inicializarlo a 'nullptr'
     ObjPLY *ply = nullptr;
     ObjRevolucion *objrev = nullptr;
+    Cilindro *cilindro = nullptr;
 
 public:
     Escena();
