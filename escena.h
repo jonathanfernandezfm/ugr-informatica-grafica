@@ -8,6 +8,8 @@
 #include "objply.h"
 #include "objrevolucion.h"
 #include "cilindro.h"
+#include "cono.h"
+#include "esfera.h"
 #include "enums.h"
 
 typedef enum
@@ -54,6 +56,8 @@ private:
     ObjPLY *ply = nullptr;
     ObjRevolucion *objrev = nullptr;
     Cilindro *cilindro = nullptr;
+    Cono *cono = nullptr;
+    Esfera *esfera = nullptr;
 
 public:
     Escena();

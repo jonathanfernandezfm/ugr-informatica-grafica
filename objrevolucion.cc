@@ -36,7 +36,7 @@ ObjRevolucion::ObjRevolucion(std::vector<Tupla3f> archivo, int num_instancias, b
 void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_instancias, bool conTapas) {
    int size = perfil_original.size(); // M
    Tupla3f max, min;
-   int northi, southi;
+   int northi = 0, southi = 0;
    bool north=false, south=false, order_down=false;
 
    if(this->vertex[0][1] > this->vertex[this->vertex.size()-1][1]){
@@ -56,12 +56,12 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
       }
    }
 
-   if(max[0]==0){ // y = 0?
+   if(max[0]==0){ // x = 0?
       north = true;
       this->vertex.erase(this->vertex.begin()+northi);
    }
 
-   if(min[0]==0){ // y = 0?
+   if(min[0]==0){ // x = 0?
       south = true;
       this->vertex.erase(this->vertex.begin()+southi);
    }

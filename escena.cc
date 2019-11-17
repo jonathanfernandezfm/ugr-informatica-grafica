@@ -21,7 +21,9 @@ Escena::Escena()
    tetraedro = new Tetraedro();
    ply = new ObjPLY("./plys/beethoven.ply");
    objrev = new ObjRevolucion("./plys/peon.ply", 20, true);
-   cilindro = new Cilindro(0, 5, 1, 2);
+   cilindro = new Cilindro(10, 100, 1, 1);
+   cono = new Cono(10, 100, 1, 1);
+   esfera = new Esfera(100, 100, 1);
 }
 
 //**************************************************************************
@@ -58,7 +60,7 @@ void Escena::dibujar()
    glLineWidth(1);
    ejes.draw();
 
-   cilindro->draw(SOLID, dibujado_vbo);
+   esfera->draw(CHESS, dibujado_vbo);
 
    if(chess){
       glPolygonMode(GL_FRONT, GL_FILL);
@@ -74,11 +76,22 @@ void Escena::dibujar()
       if(showPly)
          ply->draw(CHESS, dibujado_vbo);
       glPopMatrix();
-      glPushMatrix();
-      glTranslatef(4,0,0);
-      if(showRevolucion)
-         objrev->draw(CHESS, dibujado_vbo);
-      glPopMatrix();
+      
+      if(showRevolucion){
+         glPushMatrix();
+            glTranslatef(4,0,0);
+            objrev->draw(CHESS, dibujado_vbo);
+         glPopMatrix();
+         glPushMatrix();
+            glTranslatef(0,0,2);
+            cilindro->draw(CHESS, dibujado_vbo);
+         glPopMatrix();
+         glPushMatrix();
+            glTranslatef(0,0,4);
+            cono->draw(CHESS, dibujado_vbo);
+         glPopMatrix();
+      }
+      
    }else{
       if (points){
          glPointSize(5);
@@ -99,6 +112,11 @@ void Escena::dibujar()
          glTranslatef(4,0,0);
          if(showRevolucion)
             objrev->draw(POINTS, dibujado_vbo);
+         glPopMatrix();
+         glPushMatrix();
+         glTranslatef(0,0,2);
+         if(showRevolucion)
+            cilindro->draw(POINTS, dibujado_vbo);
          glPopMatrix();
       }
 
@@ -121,6 +139,11 @@ void Escena::dibujar()
          if(showRevolucion)
             objrev->draw(SOLID, dibujado_vbo);
          glPopMatrix();
+         glPushMatrix();
+         glTranslatef(0,0,2);
+         if(showRevolucion)
+            cilindro->draw(SOLID, dibujado_vbo);
+         glPopMatrix();
       }
 
       if (lines){
@@ -142,6 +165,11 @@ void Escena::dibujar()
          glTranslatef(4,0,0);
          if(showRevolucion)
             objrev->draw(LINES, dibujado_vbo);
+         glPopMatrix();
+         glPushMatrix();
+         glTranslatef(0,0,2);
+         if(showRevolucion)
+            cilindro->draw(LINES, dibujado_vbo);
          glPopMatrix();
       }
    }
