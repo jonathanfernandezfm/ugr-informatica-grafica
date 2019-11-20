@@ -16,12 +16,10 @@
 // Clase ObjPLY (práctica 2)
 //
 // *****************************************************************************
-<<<<<<< HEAD
 
 class ObjPLY: public Malla3D {
 	public:
-		ObjPLY( const std::string & nombre_archivo ) ;
-class ObjPLY: public Malla3D {
-public:
- ObjPLY( const std::string & nombre_archivo ) ;
-    
+		ObjPLY( const std::string & nombre_archivo );
+};
+
+#endif

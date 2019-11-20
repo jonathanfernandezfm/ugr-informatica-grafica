@@ -17,7 +17,9 @@ ObjRevolucion::ObjRevolucion() {}
 ObjRevolucion::ObjRevolucion(const std::string & archivo, int num_instancias, bool conTapas) {
    this->vertex = {};
    this->faces = {};
+   ply::read_vertices(archivo, this->vertex);
    this->crearMalla(this->vertex, num_instancias, conTapas);
+}
 
 ObjRevolucion::ObjRevolucion(std::vector<Tupla3f> perfil, int num_instancias, bool conTapas, int eje) {
    this->vertex = perfil;
