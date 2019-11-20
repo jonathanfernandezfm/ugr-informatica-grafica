@@ -5,6 +5,14 @@
 #include "malla.h"
 #include "cubo.h"
 #include "tetraedro.h"
+<<<<<<< HEAD
+#include "objply.h"
+#include "objrevolucion.h"
+#include "cilindro.h"
+#include "cono.h"
+#include "esfera.h"
+=======
+>>>>>>> master
 #include "enums.h"
 
 typedef enum
@@ -37,6 +45,11 @@ private:
 
     bool showCubo = false;
     bool showTetraedro = false;
+<<<<<<< HEAD
+    bool showRevolucion = false;
+    bool showPly = false;
+=======
+>>>>>>> master
     bool points = false, lines = false, solid = false, chess = false;
     bool dibujado_vbo = false;
 
@@ -46,6 +59,14 @@ private:
     Ejes ejes;
     Cubo *cubo = nullptr;           // es importante inicializarlo a 'nullptr'
     Tetraedro *tetraedro = nullptr; // es importante inicializarlo a 'nullptr'
+<<<<<<< HEAD
+    ObjPLY *ply = nullptr;
+    ObjRevolucion *objrev = nullptr;
+    Cilindro *cilindro = nullptr;
+    Cono *cono = nullptr;
+    Esfera *esfera = nullptr;
+=======
+>>>>>>> master
 
 public:
     Escena();
