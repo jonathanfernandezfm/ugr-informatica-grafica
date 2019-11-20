@@ -1,13 +1,7 @@
 #include "aux.h"
 #include "objrevolucion.h"
-<<<<<<< HEAD
 #include "ply_reader.h"
 #include <math.h>
-=======
-
-
-
->>>>>>> master
 
 // *****************************************************************************
 //
@@ -15,31 +9,16 @@
 //
 // *****************************************************************************
 
-<<<<<<< HEAD
-=======
-
->>>>>>> master
 // *****************************************************************************
 // objeto de revolución obtenido a partir de un perfil (en un PLY)
 
 ObjRevolucion::ObjRevolucion() {}
 
-<<<<<<< HEAD
 ObjRevolucion::ObjRevolucion(const std::string & archivo, int num_instancias, bool conTapas) {
    this->vertex = {};
    this->faces = {};
-   ply::read_vertices(archivo, this->vertex);
    this->crearMalla(this->vertex, num_instancias, conTapas);
-=======
-ObjRevolucion::ObjRevolucion(const std::string & archivo, int num_instancias, bool tapa_sup, bool tapa_inf) {
-   // completar ......(práctica 2)
->>>>>>> master
-}
 
-// *****************************************************************************
-// objeto de revolución obtenido a partir de un perfil (en un vector de puntos)
-
-<<<<<<< HEAD
 ObjRevolucion::ObjRevolucion(std::vector<Tupla3f> perfil, int num_instancias, bool conTapas, int eje) {
    this->vertex = perfil;
    this->faces = {};
@@ -569,12 +548,3 @@ Tupla3f ObjRevolucion::rotateZ(Tupla3f vertice, double angle){
    return out;
 }
 
-=======
- 
-ObjRevolucion::ObjRevolucion(std::vector<Tupla3f> archivo, int num_instancias, bool tapa_sup, bool tapa_inf) {
-    
-}
-
-void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_instancias) {
-}
->>>>>>> master

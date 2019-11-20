@@ -1,5 +1,3 @@
-
-
 #include "aux.h" // includes de OpenGL/glut/glew, windows, y librería std de C++
 #include "escena.h"
 #include "enums.h"
@@ -11,21 +9,14 @@
 
 Escena::Escena()
 {
-<<<<<<< HEAD
    Front_plane = 0.1;
    Back_plane = 2000.0;
    Observer_distance = 2.0;
-=======
-   Front_plane = 50.0;
-   Back_plane = 2000.0;
-   Observer_distance = 4 * Front_plane;
->>>>>>> master
    Observer_angle_x = 0.0;
    Observer_angle_y = 0.0;
    ejes.changeAxisSize(5000);
    cubo = new Cubo();
    tetraedro = new Tetraedro();
-<<<<<<< HEAD
    ply = new ObjPLY("./plys/beethoven.ply");
    objrev = new ObjRevolucion("./plys/peon.ply", 20, true);
    
@@ -50,12 +41,6 @@ Escena::Escena()
    cilindro = new Cilindro(10, 100, 1, 1);
    cono = new Cono(10, 100, 1, 1);
    esfera = new Esfera(100, 100, 0.5);
-=======
-
-   // crear los objetos de la escena....
-   // .......completar: ...
-   // .....
->>>>>>> master
 }
 
 //**************************************************************************
@@ -92,7 +77,6 @@ void Escena::dibujar()
    glLineWidth(1);
    ejes.draw();
 
-<<<<<<< HEAD
    if(chess){
       glPolygonMode(GL_FRONT, GL_FILL);
       if(showTetraedro)
@@ -231,50 +215,6 @@ void Escena::dibujar()
          }
       }
    }
-=======
-   glPushMatrix();
-   glTranslatef(100, 0, 0);
-   if (chess)
-   {
-      glPolygonMode(GL_FRONT, GL_FILL);
-      if (showCubo)
-         cubo->draw(CHESS, dibujado_vbo);
-      if (showTetraedro)
-         tetraedro->draw(CHESS, dibujado_vbo);
-   }
-   else
-   {
-      if (points)
-      {
-         glPointSize(5);
-         glPolygonMode(GL_FRONT, GL_POINT);
-         if (showCubo)
-            cubo->draw(POINTS, dibujado_vbo);
-         if (showTetraedro)
-            tetraedro->draw(POINTS, dibujado_vbo);
-      }
-
-      if (lines)
-      {
-         glLineWidth(3);
-         glPolygonMode(GL_FRONT, GL_LINE);
-         if (showCubo)
-            cubo->draw(LINES, dibujado_vbo);
-         if (showTetraedro)
-            tetraedro->draw(LINES, dibujado_vbo);
-      }
-
-      if (solid)
-      {
-         glPolygonMode(GL_FRONT, GL_FILL);
-         if (showCubo)
-            cubo->draw(SOLID, dibujado_vbo);
-         if (showTetraedro)
-            tetraedro->draw(SOLID, dibujado_vbo);
-      }
-   }
-   glPopMatrix();
->>>>>>> master
 }
 
 //**************************************************************************
@@ -290,11 +230,7 @@ bool Escena::teclaPulsada(unsigned char tecla, int x, int y)
    using namespace std;
    bool salir = false;
    string clear = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-<<<<<<< HEAD
    string menuObjeto = "***SELECCION DE OBJETO***\n\t'C': Cubo\n\t'T': Tetraedro\n\t'R': Revolucion\n\t'P': PLY\n\t'Q': Salir";
-=======
-   string menuObjeto = "***SELECCION DE OBJETO***\n\t'C': Cubo\n\t'T': Tetraedro\n\t'Q': Salir";
->>>>>>> master
    string menuVisualizacion = "***SELECCION DE MODO DE VISUALIZACION***\n\t'P': Puntos\n\t'L': Lineas\n\t'S': Solido\n\t'A': Ajedrez\n\t'Q': Salir";
    string menuDibujado = "***SELECCION DE MODO DE DIBUJADO***\n\t'1': glDrawElements\n\t'2': VBOs\n\t'Q': Salir";
    string menuSeleccion = "***Menu***\n\t'O': SELECION DE OBJETO\n\t'V': SELECCION MODO VISUALIZACION\n\t'D': SELECCION MODO DIBUJADO\n\t'Q': Salir";
@@ -311,7 +247,6 @@ bool Escena::teclaPulsada(unsigned char tecla, int x, int y)
          showTetraedro = !showTetraedro;
          cout << ">>>>>>>> TETRAEDRO: " << showTetraedro << " <<<<<<<<" << endl;
          break;
-<<<<<<< HEAD
       case 'R':
          showRevolucion = !showRevolucion;
          cout << ">>>>>>>> REVOLUCION: " << showRevolucion << " <<<<<<<<" << endl;
@@ -320,8 +255,6 @@ bool Escena::teclaPulsada(unsigned char tecla, int x, int y)
          showPly = !showPly;
          cout << ">>>>>>>> PLY: " << showPly << " <<<<<<<<" << endl;
          break;
-=======
->>>>>>> master
       case 'Q':
          modoMenu = NADA;
          cout << clear;
@@ -462,18 +395,11 @@ void Escena::teclaEspecial(int Tecla1, int x, int y)
 
 void Escena::change_projection(const float ratio_xy)
 {
-<<<<<<< HEAD
    glMatrixMode( GL_PROJECTION );
    glLoadIdentity();
    const float wy = 0.84*Front_plane ,
    wx = ratio_xy*wy;
    glFrustum( -wx, +wx, -wy, +wy, Front_plane, Back_plane );
-=======
-   glMatrixMode(GL_PROJECTION);
-   glLoadIdentity();
-   const float wx = float(Height) * ratio_xy;
-   glFrustum(-wx, wx, -Height, Height, Front_plane, Back_plane);
->>>>>>> master
 }
 //**************************************************************************
 // Funcion que se invoca cuando cambia el tamaño de la ventana
@@ -481,13 +407,8 @@ void Escena::change_projection(const float ratio_xy)
 
 void Escena::redimensionar(int newWidth, int newHeight)
 {
-<<<<<<< HEAD
    Width = newWidth;
    Height = newHeight;
-=======
-   Width = newWidth / 10;
-   Height = newHeight / 10;
->>>>>>> master
    change_projection(float(newHeight) / float(newWidth));
    glViewport(0, 0, newWidth, newHeight);
 }
