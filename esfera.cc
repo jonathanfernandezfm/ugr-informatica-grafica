@@ -34,10 +34,5 @@ Esfera::Esfera( const int num_vert_perfil, const int num_instancias_perf, const 
         0.0f
     });
 
-    // std::cout << "ESFERITA" << std::endl;
-    for(int i=0; i<this->vertex.size()-1; i++){
-        std::cout << this->vertex[i] << std::endl;
-    }
-
     this->crearMalla(this->vertex, num_instancias_perf, true);
 }

@@ -20,15 +20,26 @@ Escena::Escena()
    cubo = new Cubo();
    tetraedro = new Tetraedro();
    ply = new ObjPLY("./plys/beethoven.ply");
-   // objrev = new ObjRevolucion("./plys/peon.ply", 20, true);
-   std::vector<Tupla3f> vector;
+   objrev = new ObjRevolucion("./plys/peon.ply", 20, true);
+   
+   // std::vector<Tupla3f> vector;
+
+   // y
    // vector.push_back({0.0f, 1.0f, 0.0f});
    // vector.push_back({1.0f, 1.0f, 0.0f});
 
    // z
-   vector.push_back({1.0f, 0.0f, 0.0f});
-   vector.push_back({1.0f, 0.0f, 1.0f}); 
-   objrev = new ObjRevolucion(vector, 10, true, 2);
+   // vector.push_back({1.0f, 0.0f, 0.0f});
+   // vector.push_back({1.0f, 0.0f, 1.0f}); 
+
+   // z con polos
+   // vector.push_back({0.0f, 0.0f, -2.0f});
+   // vector.push_back({1.0f, 0.0f, -1.0f}); 
+   // vector.push_back({1.0f, 0.0f, 0.0f}); 
+   // vector.push_back({0.0f, 0.0f, 1.0f}); 
+
+   //objrev = new ObjRevolucion(vector, 10, true, 2);
+   
    cilindro = new Cilindro(10, 100, 1, 1);
    cono = new Cono(10, 100, 1, 1);
    esfera = new Esfera(100, 100, 0.5);
@@ -101,7 +112,6 @@ void Escena::dibujar()
             esfera->draw(CHESS, dibujado_vbo);
          glPopMatrix();
       }
-      
    }else{
       if (points){
          glPointSize(5);

@@ -3,15 +3,11 @@
 #include "ply_reader.h"
 #include <math.h>
 
-
-
-
 // *****************************************************************************
 //
 // Clase ObjRevolucion (práctica 2)
 //
 // *****************************************************************************
-
 
 // *****************************************************************************
 // objeto de revolución obtenido a partir de un perfil (en un PLY)
@@ -34,6 +30,9 @@ ObjRevolucion::ObjRevolucion(std::vector<Tupla3f> perfil, int num_instancias, bo
 
    this->crearMalla(this->vertex, num_instancias, conTapas, eje);
 }
+
+// *****************************************************************************
+// creacion de la malla a partir de un perfil
 
 void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_instancias, bool conTapas, int eje) {
    int size = perfil_original.size(); // M
@@ -61,12 +60,12 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
          }
       }
 
-      if(max[1]==0){ // Y = 0?
+      if(max[1]==0 && max[2]==0){ // Y = 0?
          north = true;
          this->vertex.erase(this->vertex.begin()+northi);
       }
 
-      if(min[1]==0){ // Y = 0?
+      if(min[1]==0 && max[2]==0){ // Y = 0?
          south = true;
          this->vertex.erase(this->vertex.begin()+southi);
       }
@@ -191,9 +190,9 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
 
          // COLORES
          for(int i=0; i<this->vertex.size(); i++){
-            colors.push_back({50.0f, 0.0f, 0.0f});
-            colors1.push_back({0.0f, 50.0f, 0.0f});
-            colors2.push_back({0.0f, 0.0f, 50.0f});
+            colors.push_back({1.0f, 0.0f, 0.0f});
+            colors1.push_back({0.0f, 1.0f, 0.0f});
+            colors2.push_back({0.0f, 0.0f, 1.0f});
          }
       }
    /* ======================================================================*/
@@ -215,12 +214,12 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
          }
       }
 
-      if(max[0]==0){ // y = 0?
+      if(max[0]==0 && max[2]==0){ // x = 0?
          north = true;
          this->vertex.erase(this->vertex.begin()+northi);
       }
 
-      if(min[0]==0){ // y = 0?
+      if(min[0]==0 && max[2]==0){ // x = 0?
          south = true;
          this->vertex.erase(this->vertex.begin()+southi);
       }
@@ -345,9 +344,9 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
 
          // COLORES
          for(int i=0; i<this->vertex.size(); i++){
-            colors.push_back({50.0f, 0.0f, 0.0f});
-            colors1.push_back({0.0f, 50.0f, 0.0f});
-            colors2.push_back({0.0f, 0.0f, 50.0f});
+            colors.push_back({1.0f, 0.0f, 0.0f});
+            colors1.push_back({0.0f, 1.0f, 0.0f});
+            colors2.push_back({0.0f, 0.0f, 1.0f});
          }
       }
    /* ======================================================================*/
@@ -369,12 +368,12 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
          }
       }
 
-      if(max[0]==0){ // x = 0?
+      if(max[0]==0 && max[1]==0){ // x = 0?
          north = true;
          this->vertex.erase(this->vertex.begin()+northi);
       }
 
-      if(min[0]==0){ // x = 0?
+      if(min[0]==0 && max[1]==0){ // x = 0?
          south = true;
          this->vertex.erase(this->vertex.begin()+southi);
       }
@@ -424,9 +423,9 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
                this->vertex.push_back(min);
             }else{
                this->vertex.push_back({
-                  min[0],
+                  0.0f,
                   min[1],
-                  0.0f
+                  min[2]
                });
             }
 
@@ -442,9 +441,9 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
                this->vertex.push_back(min);
             }else{
                this->vertex.push_back({
-                  min[0],
+                  0.0f,
                   min[1],
-                  0.0f
+                  min[2]
                });
             }
 
@@ -459,14 +458,15 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
          
 
          // INSERTAMOS POLO NORTE Y CREAMOS SUS CARAS
-         if(order_down){ // SI EL PERFIL ES DE MAYOR A MENOR
+         if(order_down){ // SI EL PERFIL ES DE MENOR A MAYOR
             if(north){
                this->vertex.push_back(max);
             }else{
+
                this->vertex.push_back({
-                  max[0],
+                  0.0f,
                   max[1],
-                  0.0f
+                  max[2]
                });
             }
 
@@ -482,9 +482,9 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
                this->vertex.push_back(max);
             }else{
                this->vertex.push_back({
-                  max[0],
+                  0.0f,
                   max[1],
-                  0.0f
+                  max[2]
                });
             }
 
@@ -499,9 +499,9 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
 
          // COLORES
          for(int i=0; i<this->vertex.size(); i++){
-            colors.push_back({50.0f, 0.0f, 0.0f});
-            colors1.push_back({0.0f, 50.0f, 0.0f});
-            colors2.push_back({0.0f, 0.0f, 50.0f});
+            colors.push_back({1.0f, 0.0f, 0.0f});
+            colors1.push_back({0.0f, 1.0f, 0.0f});
+            colors2.push_back({0.0f, 0.0f, 1.0f});
          }
       }
    }
