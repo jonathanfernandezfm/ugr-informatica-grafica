@@ -41,7 +41,22 @@ void Malla3D::draw_ModoInmediato(modes mode)
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glVertexPointer(3, GL_FLOAT, 0, vertex.data());
 		glEnableClientState(GL_COLOR_ARRAY);
-		glColorPointer(3, GL_FLOAT, 0, colors.data());
+
+		switch (mode)
+		{
+		case SOLID:
+			glColorPointer(3, GL_FLOAT, 0, colors.data());
+			break;
+		case LINES:
+			glColorPointer(3, GL_FLOAT, 0, colors1.data());
+			break;
+		case POINTS:
+			glColorPointer(3, GL_FLOAT, 0, colors2.data());
+			break;
+		default:
+			break;
+		}
+
 		glDrawElements(GL_TRIANGLES, faces.size() * 3, GL_UNSIGNED_INT, faces.data());
 		glDisableClientState(GL_VERTEX_ARRAY);
 	}
@@ -122,6 +137,17 @@ void Malla3D::draw_ModoDiferido(modes mode)
 		glDisableClientState(GL_VERTEX_ARRAY);
 	}   
 }
+
+void Malla3D::draw_ModoSmooth()
+{
+
+}
+
+void Malla3D::draw_ModoFlat()
+{
+
+}
+
 // -----------------------------------------------------------------------------
 // Función de visualización de la malla,
 // puede llamar a  draw_ModoInmediato o bien a draw_ModoDiferido
@@ -144,4 +170,53 @@ GLuint Malla3D::crearVBO(GLuint tipo_vbo, GLuint tamanio_bytes, GLvoid *puntero_
     glBindBuffer(tipo_vbo, 0);
 
     return id_vbo;
+}
+
+void Malla3D::generarNormales() 
+{
+	Tupla3f vector1, vector2;
+	Tupla3f prod;
+	float module=0;
+
+	// for(int i=0; i<vertex.size(); i++){
+	// 	std::cout << "Vertex: " << vertex[i] << std::endl;
+	// }
+	// std::cout << std::endl << std::endl;
+
+	// for(int i=0; i<faces.size(); i++){
+	// 	std::cout << "Faces: " << faces[i] << std::endl;
+	// }
+	// std::cout << std::endl << std::endl;
+
+
+	for(int i=0; i<faces.size(); i++){
+		vector1 = vertex[faces[i][1]] - vertex[faces[i][0]]; // q-p
+		vector2 = vertex[faces[i][2]] - vertex[faces[i][0]]; // r-p
+
+		prod = vector1.cross(vector2);
+
+		// std::cout << "Face: " << faces[i] << std::endl;
+		// std::cout << "Prod: " << prod << " Vector1: " << vector1 << " Vector2: " << vector2 << std::endl;
+
+		prod = prod.normalized();
+
+		normalsf.push_back(prod);
+	}
+
+	normalsv.resize(vertex.size());
+	for(int i=0; i<normalsv.size(); i++){
+		normalsv[i]={0,0,0};
+	}
+	for(int i=0; i<faces.size(); i++){
+		// std::cout << normalsf[i] << " + " << normalsv[faces[i][0]] << std::endl;
+		normalsv[faces[i][0]] = normalsv[faces[i][0]] + normalsf[i];
+		normalsv[faces[i][1]] = normalsv[faces[i][1]] + normalsf[i];
+		normalsv[faces[i][2]] = normalsv[faces[i][2]] + normalsf[i];
+	}
+
+	for(int i=0; i<normalsv.size(); i++){
+		// std::cout << "Normal ver: " << normalsv[i] << std::endl;
+		normalsv[i] = normalsv[i].normalized();
+	}
+	// NORMALIZAR
 }

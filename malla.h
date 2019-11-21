@@ -28,12 +28,18 @@ public:
    // dibuja el objeto en modo diferido (usando VBOs)
    void draw_ModoDiferido(modes mode);
 
+   void draw_ModoSmooth();
+
+   void draw_ModoFlat();
+
    // función que redibuja el objeto
    // está función llama a 'draw_ModoInmediato' (modo inmediato)
    // o bien a 'draw_ModoDiferido' (modo diferido, VBOs)
    void draw(modes mode, bool dibujado_vbo);
 
    GLuint crearVBO(GLuint tipo_vbo, GLuint tamanio_bytes, GLvoid *puntero_ram);
+
+   void generarNormales();
 
 protected:
    void calcular_normales(); // calcula tabla de normales de vértices (práctica 3)
@@ -46,8 +52,8 @@ protected:
    std::vector<Tupla3f> colors;
    std::vector<Tupla3f> colors1;
    std::vector<Tupla3f> colors2;
-   std::vector<Tupla3f> colorschess;
-   // completar: tabla de colores, tabla de normales de vértices
+   std::vector<Tupla3f> normalsf;
+   std::vector<Tupla3f> normalsv;
 };
 
 #endif

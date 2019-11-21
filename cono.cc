@@ -23,11 +23,6 @@ Cono::Cono( const int num_vert_perfil, const int num_instancias_perf, const floa
         });
     }
 
-    this->vertex.push_back({
-        0.0f, 
-        altura,
-        0.0f
-    });
-
     this->crearMalla(this->vertex, num_instancias_perf, true);
+    this->generarNormales();
 }

@@ -40,41 +40,43 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
    /* ======================================================================*/
    if ( eje == 0 ) {
 
-      if(this->vertex[0][0] > this->vertex[this->vertex.size()-1][0]){
+      if(perfil_original[0][0] > perfil_original[perfil_original.size()-1][0]){
          order_down = true;
       }
 
-      max = this->vertex[0];
-      min = this->vertex[0];
-      for(int i=1; i<this->vertex.size(); i++){
-         if(this->vertex[i][0] > max[0]){
-            max = this->vertex[i];
+      max = perfil_original[0];
+      min = perfil_original[0];
+      for(int i=1; i<perfil_original.size(); i++){
+         if(perfil_original[i][0] > max[0]){
+            max = perfil_original[i];
             northi = i;
          }
-         if(this->vertex[i][0] < min[0]){
-            min = this->vertex[i];
+         if(perfil_original[i][0] < min[0]){
+            min = perfil_original[i];
             southi = i;
          }
       }
 
       if(max[1]==0 && max[2]==0){ // Y = 0?
          north = true;
-         this->vertex.erase(this->vertex.begin()+northi);
+         perfil_original.erase(perfil_original.begin()+northi);
       }
 
       if(min[1]==0 && max[2]==0){ // Y = 0?
          south = true;
-         this->vertex.erase(this->vertex.begin()+southi);
+         perfil_original.erase(perfil_original.begin()+southi);
       }
 
-      size = this->vertex.size(); // NEW M
+      size = perfil_original.size(); // NEW M
 
-      for(int i=1; i<=num_instancias; i++){
+      for(int i=0; i<=num_instancias; i++){
          //std::cout << "perfil " << i << std::endl;
          for(int j=0; j<size; j++){
-            this->vertex.push_back(this->rotateX(this->vertex[j], 2*M_PI*i/num_instancias));
+            this->vertex.push_back(this->rotateX(perfil_original[j], 2*M_PI*i/num_instancias));
          }
       }
+
+      
 
       // CARAS
       for(int i=0; i<num_instancias; i++){
@@ -194,42 +196,41 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
       }
    /* ======================================================================*/
    } else if ( eje == 1 ) {
-      if(this->vertex[0][1] > this->vertex[this->vertex.size()-1][1]){
+      if(perfil_original[0][1] > perfil_original[perfil_original.size()-1][1]){
          order_down = true;
       }
 
-      max = this->vertex[0];
-      min = this->vertex[0];
-      for(int i=1; i<this->vertex.size(); i++){
-         if(this->vertex[i][1] > max[1]){
-            max = this->vertex[i];
+      max = perfil_original[0];
+      min = perfil_original[0];
+      for(int i=1; i<perfil_original.size(); i++){
+         if(perfil_original[i][1] > max[1]){
+            max = perfil_original[i];
             northi = i;
          }
-         if(this->vertex[i][1] < min[1]){
-            min = this->vertex[i];
+         if(perfil_original[i][1] < min[1]){
+            min = perfil_original[i];
             southi = i;
          }
       }
 
       if(max[0]==0 && max[2]==0){ // x = 0?
          north = true;
-         this->vertex.erase(this->vertex.begin()+northi);
+         perfil_original.erase(perfil_original.begin()+northi);
       }
 
       if(min[0]==0 && max[2]==0){ // x = 0?
          south = true;
-         this->vertex.erase(this->vertex.begin()+southi);
+         perfil_original.erase(perfil_original.begin()+southi);
       }
 
-      size = this->vertex.size(); // NEW M
-
-      for(int i=1; i<=num_instancias; i++){
-         //std::cout << "perfil " << i << std::endl;
-         for(int j=0; j<size; j++){
-            this->vertex.push_back(this->rotateY(this->vertex[j], 2*M_PI*i/num_instancias));
+      for(int i=0; i<=num_instancias-1; i++){
+         for(int j=0; j<perfil_original.size(); j++){
+            this->vertex.push_back(this->rotateY(perfil_original[j], 2*M_PI*i/num_instancias));
          }
       }
 
+      size = perfil_original.size();
+      
       // CARAS
       for(int i=0; i<num_instancias; i++){
          for(int j=0; j<size-1; j++){
@@ -503,21 +504,17 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
       }
    }
 
-   // for(int i=0; i<this->vertex.size(); i++){
-   //    std::cout << this->vertex[i] << std::endl;
-   // }
-
-   
-
    // PRINTF VERTICES
-   // for(int i=0; i<this->vertex.size(); i++){
-   //    std::cout << this->vertex[i] << std::endl;
-   // }
+   for(int i=0; i<this->vertex.size(); i++){
+      std::cout << this->vertex[i] << std::endl;
+   }
+
+   std::cout << std::endl;
 
    // PRINTF CARAS
-   // for(int i=0; i<this->faces.size(); i++){
-   //    std::cout << this->faces[i] << std::endl;
-   // }
+   for(int i=0; i<this->faces.size(); i++){
+      std::cout << this->faces[i] << std::endl;
+   }
 }
 
 Tupla3f ObjRevolucion::rotateX(Tupla3f vertice, double angle){

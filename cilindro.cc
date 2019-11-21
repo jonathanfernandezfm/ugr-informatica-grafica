@@ -4,7 +4,9 @@
 
 Cilindro::Cilindro( const int num_vert_perfil, const int num_instancias_perf, const float altura, const float radio )
 {
-    this->vertex.push_back({
+    std::vector<Tupla3f> perfil;
+
+    perfil.push_back({
         radio, 
         0.0f, 
         0.0f
@@ -15,18 +17,24 @@ Cilindro::Cilindro( const int num_vert_perfil, const int num_instancias_perf, co
 
     // empezamos en 1 por los vertices existentes
     for(int i=1; i<num_vert_perfil; i++){
-        this->vertex.push_back({
+        perfil.push_back({
             radio,
             i*fragment,
             0.0f
         });
     }
 
-    this->vertex.push_back({
-        radio, 
-        altura, 
-        0.0f
-    });
+    this->crearMalla(perfil, num_instancias_perf, true);
 
-    this->crearMalla(this->vertex, num_instancias_perf, true);
+    // for(int i=0; i<faces.size(); i++){
+    //     std::cout << "Faces: " << faces[i] << std::endl;
+    // }
+
+    // 	std::cout << std::endl << std::endl;
+
+    // for(int i=0; i<vertex.size(); i++){
+    //     std::cout << "vertex: " << vertex[i] << std::endl;
+    // }
+
+    //this->generarNormales();
 }

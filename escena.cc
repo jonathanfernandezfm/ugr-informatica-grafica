@@ -15,10 +15,10 @@ Escena::Escena()
    Observer_angle_x = 0.0;
    Observer_angle_y = 0.0;
    ejes.changeAxisSize(5000);
-   cubo = new Cubo();
-   tetraedro = new Tetraedro();
-   ply = new ObjPLY("./plys/beethoven.ply");
-   objrev = new ObjRevolucion("./plys/peon.ply", 20, true);
+   // cubo = new Cubo();
+   // tetraedro = new Tetraedro();
+   // ply = new ObjPLY("./plys/beethoven.ply");
+   // objrev = new ObjRevolucion("./plys/peon.ply", 20, true);
    
    // std::vector<Tupla3f> vector;
 
@@ -38,9 +38,9 @@ Escena::Escena()
 
    //objrev = new ObjRevolucion(vector, 10, true, 2);
    
-   cilindro = new Cilindro(10, 100, 1, 1);
-   cono = new Cono(10, 100, 1, 1);
-   esfera = new Esfera(100, 100, 0.5);
+   cilindro = new Cilindro(2, 3, 1, 1);
+   // cono = new Cono(10, 100, 1, 1);
+   // esfera = new Esfera(10, 10, 0.5);
 }
 
 //**************************************************************************
@@ -93,22 +93,22 @@ void Escena::dibujar()
       glPopMatrix();
       
       if(showRevolucion){
-         glPushMatrix();
-            glTranslatef(4,0,0);
-            objrev->draw(CHESS, dibujado_vbo);
-         glPopMatrix();
+         // glPushMatrix();
+         //    glTranslatef(4,0,0);
+         //    objrev->draw(CHESS, dibujado_vbo);
+         // glPopMatrix();
          glPushMatrix();
             glTranslatef(0,0,2);
             cilindro->draw(CHESS, dibujado_vbo);
          glPopMatrix();
-         glPushMatrix();
-            glTranslatef(0,0,4);
-            cono->draw(CHESS, dibujado_vbo);
-         glPopMatrix();
-         glPushMatrix();
-            glTranslatef(2,0,2);
-            esfera->draw(CHESS, dibujado_vbo);
-         glPopMatrix();
+         // glPushMatrix();
+         //    glTranslatef(0,0,4);
+         //    cono->draw(CHESS, dibujado_vbo);
+         // glPopMatrix();
+         // glPushMatrix();
+         //    glTranslatef(2,0,2);
+         //    esfera->draw(CHESS, dibujado_vbo);
+         // glPopMatrix();
       }
    }else{
       if (points){

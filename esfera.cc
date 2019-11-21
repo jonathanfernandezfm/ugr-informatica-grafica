@@ -35,4 +35,5 @@ Esfera::Esfera( const int num_vert_perfil, const int num_instancias_perf, const 
     });
 
     this->crearMalla(this->vertex, num_instancias_perf, true);
+    this->generarNormales();
 }
