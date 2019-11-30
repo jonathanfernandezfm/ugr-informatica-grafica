@@ -25,23 +25,11 @@ Tetraedro::Tetraedro()
 
 	// inicializar la tabla de colores:
 
-	colors = {
-		{1.0f, 0.0f, 0.0f},
-		{1.0f, 0.0f, 0.0f},
-		{1.0f, 0.0f, 0.0f},
-		{1.0f, 0.0f, 0.0f}};
+	for(int i=0; i<vertex.size(); i++){
+        colors.push_back({1.0f, 0.0f, 0.0f});
+        colors1.push_back({0.0f, 1.0f, 0.0f});
+        colors2.push_back({0.0f, 0.0f, 1.0f});
+    }
 
-	colors1 = {
-		{0.0f, 1.0f, 0.0f},
-		{0.0f, 1.0f, 0.0f},
-		{0.0f, 1.0f, 0.0f},
-		{0.0f, 1.0f, 0.0f}};
-
-	colors2 = {
-		{0.0f, 0.0f, 1.0f},
-		{0.0f, 0.0f, 1.0f},
-		{0.0f, 0.0f, 1.0f},
-		{0.0f, 0.0f, 1.0f}};
-
-		this->generarNormales();
+	//this->generarNormales();
 }

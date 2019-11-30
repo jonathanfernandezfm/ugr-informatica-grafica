@@ -32,10 +32,10 @@ void Malla3D::draw_ModoInmediato(modes mode)
 		glColorPointer(3, GL_FLOAT, 0, colors2.data());
 		glDrawElements(GL_TRIANGLES, faceschess2.size() * 3, GL_UNSIGNED_INT, faceschess2.data());
 
-		//glColorPointer(3, GL_FLOAT, 0, colors1.data());
-		//glDrawElements(GL_TRIANGLES, faces.size()/2 * 3, GL_UNSIGNED_INT, faces.data());
-		//glColorPointer(3, GL_FLOAT, 0, colors2.data());
-		//glDrawElements(GL_TRIANGLES, faces.size()/2 * 3, GL_UNSIGNED_INT, faces.data()+faces.size()/2);
+		// glColorPointer(3, GL_FLOAT, 0, colors1.data());
+		// glDrawElements(GL_TRIANGLES, faces.size()/2 * 3, GL_UNSIGNED_INT, faces.data());
+		// glColorPointer(3, GL_FLOAT, 0, colors2.data());
+		// glDrawElements(GL_TRIANGLES, faces.size()/2 * 3, GL_UNSIGNED_INT, faces.data()+faces.size()/2);
 		glDisableClientState(GL_VERTEX_ARRAY);
 	}else{
 		glEnableClientState(GL_VERTEX_ARRAY);
@@ -140,7 +140,21 @@ void Malla3D::draw_ModoDiferido(modes mode)
 
 void Malla3D::draw_ModoSmooth()
 {
+	glShadeModel(GL_SMOOTH);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, vertex.data());
+	glEnableClientState(GL_COLOR_ARRAY);
+	glColorPointer(3, GL_FLOAT, 0, colors.data());
+	glEnableClientState( GL_NORMAL_ARRAY );
+	glNormalPointer(GL_FLOAT, 0, normalsv.data() );
+	glDrawElements(GL_TRIANGLES, faces.size() * 3, GL_UNSIGNED_INT, faces.data());
 
+	m->aplicar();
+
+
+	glDisableClientState(GL_COLOR_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 void Malla3D::draw_ModoFlat()
@@ -154,11 +168,14 @@ void Malla3D::draw_ModoFlat()
 
 void Malla3D::draw(modes mode, bool dibujado_vbo)
 {
-	if(dibujado_vbo){
-		draw_ModoDiferido(mode);
-	}else{
-		draw_ModoInmediato(mode);
-	}
+	m = new Material(Tupla4f( 0.2, 0.2, 0.2, 1.0), Tupla4f(0.0, 0.0, 1, 1.0), Tupla4f(1.0, 0.0, 0.5, 1.0), 128*0.6);
+	draw_ModoSmooth();
+	// if(dibujado_vbo){
+	// 	draw_ModoDiferido(mode);
+	// }else{
+	// 	draw_ModoInmediato(mode);
+	// }
+	
 }
 
 GLuint Malla3D::crearVBO(GLuint tipo_vbo, GLuint tamanio_bytes, GLvoid *puntero_ram)
@@ -178,27 +195,11 @@ void Malla3D::generarNormales()
 	Tupla3f prod;
 	float module=0;
 
-	// for(int i=0; i<vertex.size(); i++){
-	// 	std::cout << "Vertex: " << vertex[i] << std::endl;
-	// }
-	// std::cout << std::endl << std::endl;
-
-	// for(int i=0; i<faces.size(); i++){
-	// 	std::cout << "Faces: " << faces[i] << std::endl;
-	// }
-	// std::cout << std::endl << std::endl;
-
-
 	for(int i=0; i<faces.size(); i++){
 		vector1 = vertex[faces[i][1]] - vertex[faces[i][0]]; // q-p
 		vector2 = vertex[faces[i][2]] - vertex[faces[i][0]]; // r-p
 
-		prod = vector1.cross(vector2);
-
-		// std::cout << "Face: " << faces[i] << std::endl;
-		// std::cout << "Prod: " << prod << " Vector1: " << vector1 << " Vector2: " << vector2 << std::endl;
-
-		prod = prod.normalized();
+		prod = vector1.cross(vector2).normalized();
 
 		normalsf.push_back(prod);
 	}
@@ -207,16 +208,14 @@ void Malla3D::generarNormales()
 	for(int i=0; i<normalsv.size(); i++){
 		normalsv[i]={0,0,0};
 	}
+
 	for(int i=0; i<faces.size(); i++){
-		// std::cout << normalsf[i] << " + " << normalsv[faces[i][0]] << std::endl;
 		normalsv[faces[i][0]] = normalsv[faces[i][0]] + normalsf[i];
 		normalsv[faces[i][1]] = normalsv[faces[i][1]] + normalsf[i];
 		normalsv[faces[i][2]] = normalsv[faces[i][2]] + normalsf[i];
 	}
 
 	for(int i=0; i<normalsv.size(); i++){
-		// std::cout << "Normal ver: " << normalsv[i] << std::endl;
 		normalsv[i] = normalsv[i].normalized();
 	}
-	// NORMALIZAR
 }

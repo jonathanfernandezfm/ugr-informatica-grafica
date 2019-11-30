@@ -10,6 +10,7 @@
 #ifndef MALLA3D_H_INCLUDED
 #define MALLA3D_H_INCLUDED
 
+#include "material.h"
 #include "aux.h"
 #include "enums.h"
 
@@ -21,6 +22,8 @@
 
 class Malla3D
 {
+private:
+   Material *m = nullptr;
 public:
    // dibuja el objeto en modo inmediato
    void draw_ModoInmediato(modes mode);
@@ -40,6 +43,8 @@ public:
    GLuint crearVBO(GLuint tipo_vbo, GLuint tamanio_bytes, GLvoid *puntero_ram);
 
    void generarNormales();
+
+   void setMaterial( Material m );
 
 protected:
    void calcular_normales(); // calcula tabla de normales de vértices (práctica 3)

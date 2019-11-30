@@ -67,16 +67,14 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
          perfil_original.erase(perfil_original.begin()+southi);
       }
 
-      size = perfil_original.size(); // NEW M
-
-      for(int i=0; i<=num_instancias; i++){
-         //std::cout << "perfil " << i << std::endl;
-         for(int j=0; j<size; j++){
+      for(int i=0; i<num_instancias; i++){
+         for(int j=0; j<perfil_original.size(); j++){
             this->vertex.push_back(this->rotateX(perfil_original[j], 2*M_PI*i/num_instancias));
          }
       }
 
-      
+      size = perfil_original.size();
+      this->faces.clear();
 
       // CARAS
       for(int i=0; i<num_instancias; i++){
@@ -120,11 +118,29 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
                });
             }
 
-            for(int i=1; i<num_instancias+1; i++){
+            for(int i=0; i<num_instancias; i++){
                this->faces.push_back({
                   this->vertex.size()-1,
                   size*(i+1)-1,
-                  size*i-1
+                  size*((i+1)%num_instancias)+size-1
+               });
+            }
+
+            if(north){
+               this->vertex.push_back(max);
+            }else{
+               this->vertex.push_back({
+                  max[0],
+                  0.0f,
+                  max[2]
+               });
+            }
+
+            for(int i=0; i<num_instancias; i++){
+               this->faces.push_back({
+                  this->vertex.size()-1,
+                  size*((i+1)%num_instancias),
+                  size*(i)
                });
             }
          }else{
@@ -141,15 +157,11 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
             for(int i=0; i<num_instancias; i++){
                this->faces.push_back({
                   this->vertex.size()-1,
-                  size*(i+1),
+                  size*((i+1)%num_instancias),
                   size*(i)
                });
             }
-         }
-         
 
-         // INSERTAMOS POLO NORTE Y CREAMOS SUS CARAS
-         if(order_down){ // SI EL PERFIL ES DE MAYOR A MENOR
             if(north){
                this->vertex.push_back(max);
             }else{
@@ -163,37 +175,13 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
             for(int i=0; i<num_instancias; i++){
                this->faces.push_back({
                   this->vertex.size()-1,
-                  size*(i),
-                  size*(i+1)
+                  size*(i+1)-1,
+                  size*((i+1)%num_instancias)+size-1
                });
             }
-         }else{
-            if(north){
-               this->vertex.push_back(max);
-            }else{
-               this->vertex.push_back({
-                  max[0],
-                  0.0f,
-                  max[2]
-               });
-            }
-
-            for(int i=1; i<num_instancias+1; i++){
-               this->faces.push_back({
-                  this->vertex.size()-1,
-                  size*i-1,
-                  size*(i+1)-1
-               });
-            }
-         }
-
-         // COLORES
-         for(int i=0; i<this->vertex.size(); i++){
-            colors.push_back({1.0f, 0.0f, 0.0f});
-            colors1.push_back({0.0f, 1.0f, 0.0f});
-            colors2.push_back({0.0f, 0.0f, 1.0f});
          }
       }
+
    /* ======================================================================*/
    } else if ( eje == 1 ) {
       if(perfil_original[0][1] > perfil_original[perfil_original.size()-1][1]){
@@ -223,14 +211,16 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
          perfil_original.erase(perfil_original.begin()+southi);
       }
 
-      for(int i=0; i<=num_instancias-1; i++){
+      // VERTEX
+      for(int i=0; i<num_instancias; i++){
          for(int j=0; j<perfil_original.size(); j++){
             this->vertex.push_back(this->rotateY(perfil_original[j], 2*M_PI*i/num_instancias));
          }
       }
 
       size = perfil_original.size();
-      
+      this->faces.clear();
+
       // CARAS
       for(int i=0; i<num_instancias; i++){
          for(int j=0; j<size-1; j++){
@@ -273,11 +263,29 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
                });
             }
 
-            for(int i=1; i<num_instancias+1; i++){
+            for(int i=0; i<num_instancias; i++){
                this->faces.push_back({
                   this->vertex.size()-1,
                   size*(i+1)-1,
-                  size*i-1
+                  size*((i+1)%num_instancias)+size-1
+               });
+            }
+
+            if(north){
+               this->vertex.push_back(max);
+            }else{
+               this->vertex.push_back({
+                  0.0,
+                  max[1],
+                  max[2]
+               });
+            }
+
+            for(int i=0; i<num_instancias; i++){
+               this->faces.push_back({
+                  this->vertex.size()-1,
+                  size*((i+1)%num_instancias),
+                  size*(i)
                });
             }
          }else{
@@ -294,15 +302,11 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
             for(int i=0; i<num_instancias; i++){
                this->faces.push_back({
                   this->vertex.size()-1,
-                  size*(i+1),
+                  size*((i+1)%num_instancias),
                   size*(i)
                });
             }
-         }
-         
 
-         // INSERTAMOS POLO NORTE Y CREAMOS SUS CARAS
-         if(order_down){ // SI EL PERFIL ES DE MAYOR A MENOR
             if(north){
                this->vertex.push_back(max);
             }else{
@@ -316,37 +320,13 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
             for(int i=0; i<num_instancias; i++){
                this->faces.push_back({
                   this->vertex.size()-1,
-                  size*(i),
-                  size*(i+1)
+                  size*(i+1)-1,
+                  size*((i+1)%num_instancias)+size-1
                });
             }
-         }else{
-            if(north){
-               this->vertex.push_back(max);
-            }else{
-               this->vertex.push_back({
-                  0.0,
-                  max[1],
-                  max[2]
-               });
-            }
-
-            for(int i=1; i<num_instancias+1; i++){
-               this->faces.push_back({
-                  this->vertex.size()-1,
-                  size*i-1,
-                  size*(i+1)-1
-               });
-            }
-         }
-
-         // COLORES
-         for(int i=0; i<this->vertex.size(); i++){
-            colors.push_back({1.0f, 0.0f, 0.0f});
-            colors1.push_back({0.0f, 1.0f, 0.0f});
-            colors2.push_back({0.0f, 0.0f, 1.0f});
          }
       }
+
    /* ======================================================================*/
    } else if ( eje == 2 ) {
       if(this->vertex[0][2] > this->vertex[this->vertex.size()-1][2]){
@@ -376,14 +356,14 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
          this->vertex.erase(this->vertex.begin()+southi);
       }
 
-      size = this->vertex.size(); // NEW M
-
-      for(int i=1; i<=num_instancias; i++){
-         //std::cout << "perfil " << i << std::endl;
-         for(int j=0; j<size; j++){
+      for(int i=0; i<num_instancias; i++){
+         for(int j=0; j<perfil_original.size(); j++){
             this->vertex.push_back(this->rotateZ(this->vertex[j], 2*M_PI*i/num_instancias));
          }
       }
+
+      size = perfil_original.size();
+      this->faces.clear();
 
       // CARAS
       for(int i=0; i<num_instancias; i++){
@@ -427,11 +407,29 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
                });
             }
 
-            for(int i=1; i<num_instancias+1; i++){
+            for(int i=0; i<num_instancias; i++){
                this->faces.push_back({
                   this->vertex.size()-1,
                   size*(i+1)-1,
-                  size*i-1
+                  size*((i+1)%num_instancias)+size-1
+               });
+            }
+
+            if(north){
+               this->vertex.push_back(max);
+            }else{
+               this->vertex.push_back({
+                  0.0f,
+                  max[1],
+                  max[2]
+               });
+            }
+
+            for(int i=0; i<num_instancias; i++){
+               this->faces.push_back({
+                  this->vertex.size()-1,
+                  size*((i+1)%num_instancias),
+                  size*(i)
                });
             }
          }else{
@@ -448,19 +446,14 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
             for(int i=0; i<num_instancias; i++){
                this->faces.push_back({
                   this->vertex.size()-1,
-                  size*(i+1),
+                  size*((i+1)%num_instancias),
                   size*(i)
                });
             }
-         }
-         
 
-         // INSERTAMOS POLO NORTE Y CREAMOS SUS CARAS
-         if(order_down){ // SI EL PERFIL ES DE MENOR A MAYOR
             if(north){
                this->vertex.push_back(max);
             }else{
-
                this->vertex.push_back({
                   0.0f,
                   max[1],
@@ -471,49 +464,19 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
             for(int i=0; i<num_instancias; i++){
                this->faces.push_back({
                   this->vertex.size()-1,
-                  size*(i),
-                  size*(i+1)
+                  size*(i+1)-1,
+                  size*((i+1)%num_instancias)+size-1
                });
             }
-         }else{
-            if(north){
-               this->vertex.push_back(max);
-            }else{
-               this->vertex.push_back({
-                  0.0f,
-                  max[1],
-                  max[2]
-               });
-            }
-
-            for(int i=1; i<num_instancias+1; i++){
-               this->faces.push_back({
-                  this->vertex.size()-1,
-                  size*i-1,
-                  size*(i+1)-1
-               });
-            }
-         }
-
-         // COLORES
-         for(int i=0; i<this->vertex.size(); i++){
-            colors.push_back({1.0f, 0.0f, 0.0f});
-            colors1.push_back({0.0f, 1.0f, 0.0f});
-            colors2.push_back({0.0f, 0.0f, 1.0f});
          }
       }
    }
 
-   // PRINTF VERTICES
+   // COLORES
    for(int i=0; i<this->vertex.size(); i++){
-      std::cout << this->vertex[i] << std::endl;
-   }
-
-   std::cout << std::endl;
-
-   // PRINTF CARAS
-   for(int i=0; i<this->faces.size(); i++){
-      std::cout << this->faces[i] << std::endl;
+      colors.push_back({1.0f, 0.0f, 0.0f});
+      colors1.push_back({0.0f, 1.0f, 0.0f});
+      colors2.push_back({0.0f, 0.0f, 1.0f});
    }
 }
 

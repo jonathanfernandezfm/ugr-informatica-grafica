@@ -20,7 +20,8 @@ Cubo::Cubo(float lado)
     // inicializar la tabla de caras o triángulos:
 
     faces = {
-        {0, 2, 3}, {0, 1, 2}, // CARA A
+        {0, 2, 3}, 
+        {0, 1, 2}, // CARA A
         {1, 5, 2},
         {1, 4, 5}, // CARA B
         {4, 7, 5},
@@ -35,35 +36,11 @@ Cubo::Cubo(float lado)
 
     // inicializar la tabla de colores:
 
-    colors = {
-        {1.0f, 0.0f, 0.0f},
-        {1.0f, 0.0f, 0.0f},
-        {1.0f, 0.0f, 0.0f},
-        {1.0f, 0.0f, 0.0f},
-        {1.0f, 0.0f, 0.0f},
-        {1.0f, 0.0f, 0.0f},
-        {1.0f, 0.0f, 0.0f},
-        {1.0f, 0.0f, 0.0f}};
-
-    colors1 = {
-        {0.0f, 1.0f, 0.0f},
-        {0.0f, 1.0f, 0.0f},
-        {0.0f, 1.0f, 0.0f},
-        {0.0f, 1.0f, 0.0f},
-        {0.0f, 1.0f, 0.0f},
-        {0.0f, 1.0f, 0.0f},
-        {0.0f, 1.0f, 0.0f},
-        {0.0f, 1.0f, 0.0f}};
-
-    colors2 = {
-        {0.0f, 0.0f, 1.0f},
-        {0.0f, 0.0f, 1.0f},
-        {0.0f, 0.0f, 1.0f},
-        {0.0f, 0.0f, 1.0f},
-        {0.0f, 0.0f, 1.0f},
-        {0.0f, 0.0f, 1.0f},
-        {0.0f, 0.0f, 1.0f},
-        {0.0f, 0.0f, 1.0f}};
+    for(int i=0; i<vertex.size(); i++){
+        colors.push_back({1.0f, 0.0f, 0.0f});
+        colors1.push_back({0.0f, 1.0f, 0.0f});
+        colors2.push_back({0.0f, 0.0f, 1.0f});
+    }
 
     this->generarNormales();
 }

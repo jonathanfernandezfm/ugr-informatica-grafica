@@ -4,7 +4,9 @@
 
 Cono::Cono( const int num_vert_perfil, const int num_instancias_perf, const float altura, const float radio )
 {
-    this->vertex.push_back({
+    std::vector<Tupla3f> perfil;
+
+    perfil.push_back({
         radio, 
         0.0f, 
         0.0f
@@ -16,13 +18,14 @@ Cono::Cono( const int num_vert_perfil, const int num_instancias_perf, const floa
 
     // empezamos en 1 por los vertices existentes
     for(int i=1; i<num_vert_perfil; i++){
-        this->vertex.push_back({
+        perfil.push_back({
             radio-(i*fragmentX),
             i*fragmentY,
             0.0f
         });
     }
 
-    this->crearMalla(this->vertex, num_instancias_perf, true);
-    this->generarNormales();
+    this->crearMalla(perfil, num_instancias_perf, true);
+
+    //this->generarNormales();
 }

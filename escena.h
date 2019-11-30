@@ -10,6 +10,8 @@
 #include "cilindro.h"
 #include "cono.h"
 #include "esfera.h"
+#include "luz_direccional.h"
+#include "luz_posicional.h"
 #include "enums.h"
 
 typedef enum
@@ -43,7 +45,8 @@ class Escena
         bool showTetraedro = false;
         bool showRevolucion = false;
         bool showPly = false;
-        bool points = false, lines = false, solid = false, chess = false;
+        bool points = false, lines = false, solid = false, chess = false, iluminacion = false;
+        bool luz1 = false, luz2 = false, luz3 = false, luz4 = false, luz5 = false, luz6 = false, luz7 = false;
         bool dibujado_vbo = false;
 
         menu modoMenu = NADA;
@@ -57,6 +60,9 @@ class Escena
         Cilindro *cilindro = nullptr;
         Cono *cono = nullptr;
         Esfera *esfera = nullptr;
+
+        LuzDireccional *luzDireccional = nullptr;
+        LuzPosicional *luzPosicional = nullptr;
 
     public:
         Escena();

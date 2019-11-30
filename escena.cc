@@ -15,32 +15,49 @@ Escena::Escena()
    Observer_angle_x = 0.0;
    Observer_angle_y = 0.0;
    ejes.changeAxisSize(5000);
-   // cubo = new Cubo();
-   // tetraedro = new Tetraedro();
-   // ply = new ObjPLY("./plys/beethoven.ply");
-   // objrev = new ObjRevolucion("./plys/peon.ply", 20, true);
+   cubo = new Cubo();
+   tetraedro = new Tetraedro();
+   ply = new ObjPLY("./plys/beethoven.ply");
+   objrev = new ObjRevolucion("./plys/peon.ply", 20, true);
    
    // std::vector<Tupla3f> vector;
 
-   // y
+   // // y
    // vector.push_back({0.0f, 1.0f, 0.0f});
    // vector.push_back({1.0f, 1.0f, 0.0f});
 
-   // z
+   // // z
    // vector.push_back({1.0f, 0.0f, 0.0f});
    // vector.push_back({1.0f, 0.0f, 1.0f}); 
 
-   // z con polos
+   // // z con polos
    // vector.push_back({0.0f, 0.0f, -2.0f});
    // vector.push_back({1.0f, 0.0f, -1.0f}); 
    // vector.push_back({1.0f, 0.0f, 0.0f}); 
    // vector.push_back({0.0f, 0.0f, 1.0f}); 
 
-   //objrev = new ObjRevolucion(vector, 10, true, 2);
+   // objrev = new ObjRevolucion(vector, 10, true, 2);
    
-   cilindro = new Cilindro(2, 3, 1, 1);
-   // cono = new Cono(10, 100, 1, 1);
-   // esfera = new Esfera(10, 10, 0.5);
+   cilindro = new Cilindro(10, 10, 1, 1);
+   cono = new Cono(10, 10, 1, 1);
+   esfera = new Esfera(10, 10, 0.5);
+
+   luzDireccional = new LuzDireccional(
+      {1.0f, 0.0f},
+      GL_LIGHT0,
+      {1.0f, 1.0f, 1.0f, 1.0f},
+      {1.0f, 1.0f, 1.0f, 1.0f},
+      {1.0f, 1.0f, 1.0f, 1.0f}
+   );
+
+   luzPosicional = new LuzPosicional(
+      {20.0, 20.0, 20.0, 1.0},
+      GL_LIGHT1,
+      {1.0f, 1.0f, 1.0f, 1.0f},
+      {1.0f, 1.0f, 1.0f, 1.0f},
+      {1.0f, 1.0f, 1.0f, 1.0f}
+   );
+   // luzPosicional = new LuzPosicional();
 }
 
 //**************************************************************************
@@ -55,6 +72,7 @@ void Escena::inicializar(int UI_window_width, int UI_window_height)
 
    glEnable(GL_DEPTH_TEST); // se habilita el z-bufer
    glEnable(GL_CULL_FACE);  // Habilitar CULL_FACE
+   glEnable(GL_NORMALIZE); // Habilitar Normalizacion
 
    Width = UI_window_width / 10;
    Height = UI_window_height / 10;
@@ -76,6 +94,11 @@ void Escena::dibujar()
    change_observer();
    glLineWidth(1);
    ejes.draw();
+   
+   glEnable(GL_LIGHT0);
+   luzPosicional->activar();
+
+   ply->draw(CHESS, dibujado_vbo);
 
    if(chess){
       glPolygonMode(GL_FRONT, GL_FILL);
@@ -93,22 +116,22 @@ void Escena::dibujar()
       glPopMatrix();
       
       if(showRevolucion){
-         // glPushMatrix();
-         //    glTranslatef(4,0,0);
-         //    objrev->draw(CHESS, dibujado_vbo);
-         // glPopMatrix();
+         glPushMatrix();
+            glTranslatef(4,0,0);
+            objrev->draw(CHESS, dibujado_vbo);
+         glPopMatrix();
          glPushMatrix();
             glTranslatef(0,0,2);
             cilindro->draw(CHESS, dibujado_vbo);
          glPopMatrix();
-         // glPushMatrix();
-         //    glTranslatef(0,0,4);
-         //    cono->draw(CHESS, dibujado_vbo);
-         // glPopMatrix();
-         // glPushMatrix();
-         //    glTranslatef(2,0,2);
-         //    esfera->draw(CHESS, dibujado_vbo);
-         // glPopMatrix();
+         glPushMatrix();
+            glTranslatef(0,0,4);
+            cono->draw(CHESS, dibujado_vbo);
+         glPopMatrix();
+         glPushMatrix();
+            glTranslatef(2,0,2);
+            esfera->draw(CHESS, dibujado_vbo);
+         glPopMatrix();
       }
    }else{
       if (points){
@@ -231,124 +254,175 @@ bool Escena::teclaPulsada(unsigned char tecla, int x, int y)
    bool salir = false;
    string clear = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
    string menuObjeto = "***SELECCION DE OBJETO***\n\t'C': Cubo\n\t'T': Tetraedro\n\t'R': Revolucion\n\t'P': PLY\n\t'Q': Salir";
-   string menuVisualizacion = "***SELECCION DE MODO DE VISUALIZACION***\n\t'P': Puntos\n\t'L': Lineas\n\t'S': Solido\n\t'A': Ajedrez\n\t'Q': Salir";
+   string menuVisualizacion = "***SELECCION DE MODO DE VISUALIZACION***\n\t'P': Puntos\n\t'L': Lineas\n\t'S': Solido\n\t'A': Ajedrez\n\t'I': Iluminacion\n\t'Q': Salir";
    string menuDibujado = "***SELECCION DE MODO DE DIBUJADO***\n\t'1': glDrawElements\n\t'2': VBOs\n\t'Q': Salir";
    string menuSeleccion = "***Menu***\n\t'O': SELECION DE OBJETO\n\t'V': SELECCION MODO VISUALIZACION\n\t'D': SELECCION MODO DIBUJADO\n\t'Q': Salir";
+   string menuIluminacion = "***Iluminacion***\n\t";
 
    if (modoMenu == SELOBJETO)
    {
       switch (toupper(tecla))
       {
-      case 'C':
-         showCubo = !showCubo;
-         cout << ">>>>>>>> CUBO: " << showCubo << " <<<<<<<<" << endl;
-         break;
-      case 'T':
-         showTetraedro = !showTetraedro;
-         cout << ">>>>>>>> TETRAEDRO: " << showTetraedro << " <<<<<<<<" << endl;
-         break;
-      case 'R':
-         showRevolucion = !showRevolucion;
-         cout << ">>>>>>>> REVOLUCION: " << showRevolucion << " <<<<<<<<" << endl;
-         break;
-      case 'P':
-         showPly = !showPly;
-         cout << ">>>>>>>> PLY: " << showPly << " <<<<<<<<" << endl;
-         break;
-      case 'Q':
-         modoMenu = NADA;
-         cout << clear;
-         cout << menuSeleccion << endl;
-         break;
-      default:
-         cout << clear;
-         cout << menuObjeto << endl;
-         break;
+         case 'C':
+            showCubo = !showCubo;
+            cout << ">>>>>>>> CUBO: " << showCubo << " <<<<<<<<" << endl;
+            break;
+         case 'T':
+            showTetraedro = !showTetraedro;
+            cout << ">>>>>>>> TETRAEDRO: " << showTetraedro << " <<<<<<<<" << endl;
+            break;
+         case 'R':
+            showRevolucion = !showRevolucion;
+            cout << ">>>>>>>> REVOLUCION: " << showRevolucion << " <<<<<<<<" << endl;
+            break;
+         case 'P':
+            showPly = !showPly;
+            cout << ">>>>>>>> PLY: " << showPly << " <<<<<<<<" << endl;
+            break;
+         case 'Q':
+            modoMenu = NADA;
+            cout << clear;
+            cout << menuSeleccion << endl;
+            break;
+         default:
+            cout << clear;
+            cout << menuObjeto << endl;
+            break;
       }
    }
    else if (modoMenu == SELVISUALIZACION)
    {
-      switch (toupper(tecla))
-      {
-      case 'P':
-         points = !points;
-         cout << ">>>>>>>> PUNTOS: " << points << "<<<<<<<<" << endl;
-         break;
-      case 'L':
-         lines = !lines;
-         cout << ">>>>>>>> LINEAS: " << lines << "<<<<<<<<" << endl;
-         break;
-      case 'S':
-         solid = !solid;
-         cout << ">>>>>>>> SOLIDO: " << solid << "<<<<<<<<" << endl;
-         break;
-      case 'A':
-         chess = !chess;
-         cout << ">>>>>>>> AJEDREZ: " << chess << "<<<<<<<<" << endl;
-         break;
-      case 'Q':
-         modoMenu = NADA;
-         cout << clear;
-         cout << menuSeleccion << endl;
-         break;
-      default:
-         cout << clear;
-         cout << menuVisualizacion << endl;
-         break;
+      if(iluminacion){
+         switch (toupper(tecla))
+         {
+            case '1':
+               luz1 = !luz1;
+               cout << ">> 1 " << luz1 << " <<" << endl;
+               break;
+            case '2':
+               luz2 = !luz2;
+               cout << ">> 2 " << luz2 << " <<" << endl;
+               break;
+            case '3':
+               luz3 = !luz3;
+               cout << ">> 3 " << luz3 << " <<" << endl;
+               break;
+            case '4':
+               luz4 = !luz4;
+               cout << ">> 4 " << luz4 << " <<" << endl;
+               break;
+            case '5':
+               luz5 = !luz5;
+               cout << ">> 5 " << luz5 << " <<" << endl;
+               break;
+            case '6':
+               luz6 = !luz6;
+               cout << ">> 6 " << luz6 << " <<" << endl;
+               break;
+            case '7':
+               luz7 = !luz7;
+               cout << ">> 7 " << luz7 << " <<" << endl;
+               break;
+            case 'A':
+               
+            case 'Q':
+               modoMenu = SELVISUALIZACION;
+               iluminacion = false;
+               cout << clear;
+               cout << menuVisualizacion << endl;
+               break;
+            default:
+               cout << clear << menuIluminacion << "Selecciona 1...9" << endl;
+               break;
+         }
+      } else {
+         switch (toupper(tecla))
+         {
+            case 'P':
+               points = !points;
+               cout << ">>>>>>>> PUNTOS: " << points << "<<<<<<<<" << endl;
+               break;
+            case 'L':
+               lines = !lines;
+               cout << ">>>>>>>> LINEAS: " << lines << "<<<<<<<<" << endl;
+               break;
+            case 'S':
+               solid = !solid;
+               cout << ">>>>>>>> SOLIDO: " << solid << "<<<<<<<<" << endl;
+               break;
+            case 'A':
+               chess = !chess;
+               cout << ">>>>>>>> AJEDREZ: " << chess << "<<<<<<<<" << endl;
+               break;
+            case 'I':
+               iluminacion = !iluminacion;
+               cout << clear << ">>>>>>>> ILUMINACION: " << iluminacion << "<<<<<<<<" << endl << endl;
+               cout << menuIluminacion << "Selecciona 1...9" << endl;
+               break;
+            case 'Q':
+               modoMenu = NADA;
+               cout << clear;
+               cout << menuSeleccion << endl;
+               break;
+            default:
+               cout << clear;
+               cout << menuVisualizacion << endl;
+               break;
+         }
       }
    }
    else if (modoMenu == SELDIBUJADO)
    {
       switch (toupper(tecla))
       {
-      case '1':
-         dibujado_vbo = false;
-         cout << ">>>>>>>> INMEDIATO <<<<<<<<" << endl;
-         break;
-      case '2':
-         dibujado_vbo = true;
-         cout << ">>>>>>>> DIFERIDO <<<<<<<<" << endl;
-         break;
-      case 'Q':
-         modoMenu = NADA;
-         cout << clear;
-         cout << menuSeleccion << endl;
-         break;
-      default:
-         cout << clear;
-         cout << menuDibujado << endl;
-         break;
+         case '1':
+            dibujado_vbo = false;
+            cout << ">>>>>>>> INMEDIATO <<<<<<<<" << endl;
+            break;
+         case '2':
+            dibujado_vbo = true;
+            cout << ">>>>>>>> DIFERIDO <<<<<<<<" << endl;
+            break;
+         case 'Q':
+            modoMenu = NADA;
+            cout << clear;
+            cout << menuSeleccion << endl;
+            break;
+         default:
+            cout << clear;
+            cout << menuDibujado << endl;
+            break;
       }
    }
    else if (modoMenu == NADA)
    {
       switch (toupper(tecla))
       {
-      case 'Q':
-         salir = true;
-         break;
-      case 'O':
-         // ESTAMOS EN MODO SELECCION DE OBJETO
-         modoMenu = SELOBJETO;
-         cout << clear;
-         cout << menuObjeto << endl;
-         break;
-      case 'V':
-         // ESTAMOS EN MODO SELECCION DE MODO DE VISUALIZACION
-         modoMenu = SELVISUALIZACION;
-         cout << clear;
-         cout << menuVisualizacion << endl;
-         break;
-      case 'D':
-         // ESTAMOS EN MODO SELECCION DE DIBUJADO
-         modoMenu = SELDIBUJADO;
-         cout << clear;
-         cout << menuDibujado << endl;
-         break;
-         // COMPLETAR con los diferentes opciones de teclado
-      default:
-         cout << clear;
-         cout << menuSeleccion << endl;
+         case 'Q':
+            salir = true;
+            break;
+         case 'O':
+            // ESTAMOS EN MODO SELECCION DE OBJETO
+            modoMenu = SELOBJETO;
+            cout << clear;
+            cout << menuObjeto << endl;
+            break;
+         case 'V':
+            // ESTAMOS EN MODO SELECCION DE MODO DE VISUALIZACION
+            modoMenu = SELVISUALIZACION;
+            cout << clear;
+            cout << menuVisualizacion << endl;
+            break;
+         case 'D':
+            // ESTAMOS EN MODO SELECCION DE DIBUJADO
+            modoMenu = SELDIBUJADO;
+            cout << clear;
+            cout << menuDibujado << endl;
+            break;
+            // COMPLETAR con los diferentes opciones de teclado
+         default:
+            cout << clear;
+            cout << menuSeleccion << endl;
       }
    }
    return salir;

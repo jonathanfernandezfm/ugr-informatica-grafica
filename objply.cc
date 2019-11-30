@@ -12,7 +12,7 @@ ObjPLY::ObjPLY( const std::string & nombre_archivo )
 // Lee la lista de vertices y caras
 	ply::read( nombre_archivo, this->vertex, this->faces );
 
-	this->generarNormales();
+	//this->generarNormales();
 
 	for(int i=0; i<this->vertex.size(); i++){
 		colors.push_back({1.0f, 0.0f, 0.0f});
