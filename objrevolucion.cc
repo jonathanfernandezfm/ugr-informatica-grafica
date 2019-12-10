@@ -19,6 +19,8 @@ ObjRevolucion::ObjRevolucion(const std::string & archivo, int num_instancias, bo
    this->faces = {};
    ply::read_vertices(archivo, this->vertex);
    this->crearMalla(this->vertex, num_instancias, conTapas);
+
+   this->generarNormales();
 }
 
 ObjRevolucion::ObjRevolucion(std::vector<Tupla3f> perfil, int num_instancias, bool conTapas, int eje) {
@@ -26,6 +28,7 @@ ObjRevolucion::ObjRevolucion(std::vector<Tupla3f> perfil, int num_instancias, bo
    this->faces = {};
 
    this->crearMalla(this->vertex, num_instancias, conTapas, eje);
+   this->generarNormales();
 }
 
 // *****************************************************************************
@@ -36,6 +39,7 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
    Tupla3f max, min;
    int northi = 0, southi = 0;
    bool north=false, south=false, order_down=false;
+   this->vertex.clear();
 
    /* ======================================================================*/
    if ( eje == 0 ) {

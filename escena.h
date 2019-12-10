@@ -46,7 +46,10 @@ class Escena
         bool showRevolucion = false;
         bool showPly = false;
         bool points = false, lines = false, solid = false, chess = false, iluminacion = false;
-        bool luz1 = false, luz2 = false, luz3 = false, luz4 = false, luz5 = false, luz6 = false, luz7 = false;
+        bool panelIluminacion = false;
+        std::vector<bool> luces = {false, false, false, false, false, false, false};
+        bool movingAlpha = false, movingBeta = false;
+        float alphaAngle = 0, betaAngle = 0;
         bool dibujado_vbo = false;
 
         menu modoMenu = NADA;

@@ -18,7 +18,7 @@ Escena::Escena()
    cubo = new Cubo();
    tetraedro = new Tetraedro();
    ply = new ObjPLY("./plys/beethoven.ply");
-   objrev = new ObjRevolucion("./plys/peon.ply", 20, true);
+   objrev = new ObjRevolucion("./plys/peon.ply", 100, true);
    
    // std::vector<Tupla3f> vector;
 
@@ -40,24 +40,23 @@ Escena::Escena()
    
    cilindro = new Cilindro(10, 10, 1, 1);
    cono = new Cono(10, 10, 1, 1);
-   esfera = new Esfera(10, 10, 0.5);
+   esfera = new Esfera(100, 100, 1);
 
    luzDireccional = new LuzDireccional(
-      {1.0f, 0.0f},
-      GL_LIGHT0,
+      {20*M_PI/180, 20*M_PI/180},
+      GL_LIGHT2,
       {1.0f, 1.0f, 1.0f, 1.0f},
       {1.0f, 1.0f, 1.0f, 1.0f},
       {1.0f, 1.0f, 1.0f, 1.0f}
    );
 
    luzPosicional = new LuzPosicional(
-      {20.0, 20.0, 20.0, 1.0},
+      {2.0, 2.0, 2.0},
       GL_LIGHT1,
       {1.0f, 1.0f, 1.0f, 1.0f},
       {1.0f, 1.0f, 1.0f, 1.0f},
       {1.0f, 1.0f, 1.0f, 1.0f}
    );
-   // luzPosicional = new LuzPosicional();
 }
 
 //**************************************************************************
@@ -94,11 +93,12 @@ void Escena::dibujar()
    change_observer();
    glLineWidth(1);
    ejes.draw();
-   
-   glEnable(GL_LIGHT0);
-   luzPosicional->activar();
+   glEnable(GL_LIGHTING);
 
-   ply->draw(CHESS, dibujado_vbo);
+   luzDireccional->activar();
+   // luzPosicional->activar();
+
+   objrev->draw(CHESS, dibujado_vbo);
 
    if(chess){
       glPolygonMode(GL_FRONT, GL_FILL);
@@ -238,6 +238,8 @@ void Escena::dibujar()
          }
       }
    }
+
+   glDisable(GL_LIGHTING);
 }
 
 //**************************************************************************
@@ -257,7 +259,7 @@ bool Escena::teclaPulsada(unsigned char tecla, int x, int y)
    string menuVisualizacion = "***SELECCION DE MODO DE VISUALIZACION***\n\t'P': Puntos\n\t'L': Lineas\n\t'S': Solido\n\t'A': Ajedrez\n\t'I': Iluminacion\n\t'Q': Salir";
    string menuDibujado = "***SELECCION DE MODO DE DIBUJADO***\n\t'1': glDrawElements\n\t'2': VBOs\n\t'Q': Salir";
    string menuSeleccion = "***Menu***\n\t'O': SELECION DE OBJETO\n\t'V': SELECCION MODO VISUALIZACION\n\t'D': SELECCION MODO DIBUJADO\n\t'Q': Salir";
-   string menuIluminacion = "***Iluminacion***\n\t";
+   string menuIluminacion = "***ILUMINACION***\n\t";
 
    if (modoMenu == SELOBJETO)
    {
@@ -292,47 +294,59 @@ bool Escena::teclaPulsada(unsigned char tecla, int x, int y)
    }
    else if (modoMenu == SELVISUALIZACION)
    {
-      if(iluminacion){
+      if(panelIluminacion){
          switch (toupper(tecla))
          {
             case '1':
-               luz1 = !luz1;
-               cout << ">> 1 " << luz1 << " <<" << endl;
+               luces[0] = !luces[0];
+               cout << ">> LUZ 1 " << luces[0] << " <<" << endl;
                break;
             case '2':
-               luz2 = !luz2;
-               cout << ">> 2 " << luz2 << " <<" << endl;
+               luces[1] = !luces[1];
+               cout << ">> LUZ 2 " << luces[1] << " <<" << endl;
                break;
             case '3':
-               luz3 = !luz3;
-               cout << ">> 3 " << luz3 << " <<" << endl;
+               luces[2] = !luces[2];
+               cout << ">> LUZ 3 " << luces[2] << " <<" << endl;
                break;
             case '4':
-               luz4 = !luz4;
-               cout << ">> 4 " << luz4 << " <<" << endl;
+               luces[3] = !luces[3];
+               cout << ">> LUZ 4 " << luces[3] << " <<" << endl;
                break;
             case '5':
-               luz5 = !luz5;
-               cout << ">> 5 " << luz5 << " <<" << endl;
+               luces[4] = !luces[4];
+               cout << ">> LUZ 5 " << luces[4] << " <<" << endl;
                break;
             case '6':
-               luz6 = !luz6;
-               cout << ">> 6 " << luz6 << " <<" << endl;
+               luces[5] = !luces[5];
+               cout << ">> LUZ 6 " << luces[5] << " <<" << endl;
                break;
             case '7':
-               luz7 = !luz7;
-               cout << ">> 7 " << luz7 << " <<" << endl;
+               luces[6] = !luces[6];
+               cout << ">> LUZ 7 " << luces[6] << " <<" << endl;
+               break;
+            case 'I':
+               iluminacion = !iluminacion;
+               cout << ">>>>>>>> ILUMINACION: " << iluminacion << "<<<<<<<<" << endl;
                break;
             case 'A':
-               
+               movingAlpha = !movingAlpha;
+               movingBeta = false;
+               break;
+            case 'B':
+               movingBeta = !movingBeta;
+               movingAlpha = false;
+               break;
             case 'Q':
                modoMenu = SELVISUALIZACION;
-               iluminacion = false;
+               panelIluminacion = false;
+               movingAlpha = false;
+               movingBeta = false;
                cout << clear;
                cout << menuVisualizacion << endl;
                break;
             default:
-               cout << clear << menuIluminacion << "Selecciona 1...9" << endl;
+               cout << clear << menuIluminacion << "'I': Activar luces\n\t'1'...'7': Activar luz i\n\t'A': Variar alpha\n\t'B': Variar beta" << endl;
                break;
          }
       } else {
@@ -355,9 +369,8 @@ bool Escena::teclaPulsada(unsigned char tecla, int x, int y)
                cout << ">>>>>>>> AJEDREZ: " << chess << "<<<<<<<<" << endl;
                break;
             case 'I':
-               iluminacion = !iluminacion;
-               cout << clear << ">>>>>>>> ILUMINACION: " << iluminacion << "<<<<<<<<" << endl << endl;
-               cout << menuIluminacion << "Selecciona 1...9" << endl;
+               panelIluminacion = !panelIluminacion;
+               cout << clear << menuIluminacion << "'I': Activar luces\n\t'1'...'7': Activar luz i\n\t'A': Variar alpha\n\t'B': Variar beta" << endl;
                break;
             case 'Q':
                modoMenu = NADA;
@@ -431,15 +444,32 @@ bool Escena::teclaPulsada(unsigned char tecla, int x, int y)
 
 void Escena::teclaEspecial(int Tecla1, int x, int y)
 {
+   using namespace std;
    switch (Tecla1)
    {
    case GLUT_KEY_LEFT:
-      Observer_angle_y--;
-      Observer_angle_y--;
+      if(movingAlpha) {
+         luzDireccional->variarAnguloAlpha(-10.0f);
+         cout << endl << "-Alpha" << endl;
+      } else if(movingBeta) {
+         luzDireccional->variarAnguloBeta(-10.0f);
+         cout << endl << "-Beta" << endl;
+      } else {
+         Observer_angle_y--;
+         Observer_angle_y--;
+      }
       break;
    case GLUT_KEY_RIGHT:
-      Observer_angle_y++;
-      Observer_angle_y++;
+      if(movingAlpha) {
+         luzDireccional->variarAnguloAlpha(10.0f);
+         cout << endl << "+Alpha" << endl;
+      } else if(movingBeta) {
+         luzDireccional->variarAnguloBeta(10.0f);
+         cout << endl << "-Beta" << endl;
+      } else {
+         Observer_angle_y++;
+         Observer_angle_y++;
+      }
       break;
    case GLUT_KEY_UP:
       Observer_angle_x--;

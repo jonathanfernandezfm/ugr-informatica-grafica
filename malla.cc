@@ -140,19 +140,18 @@ void Malla3D::draw_ModoDiferido(modes mode)
 
 void Malla3D::draw_ModoSmooth()
 {
+	m->aplicar();
+
 	glShadeModel(GL_SMOOTH);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, vertex.data());
-	glEnableClientState(GL_COLOR_ARRAY);
-	glColorPointer(3, GL_FLOAT, 0, colors.data());
+	// glEnableClientState(GL_COLOR_ARRAY);
+	// glColorPointer(3, GL_FLOAT, 0, colors.data());
 	glEnableClientState( GL_NORMAL_ARRAY );
 	glNormalPointer(GL_FLOAT, 0, normalsv.data() );
 	glDrawElements(GL_TRIANGLES, faces.size() * 3, GL_UNSIGNED_INT, faces.data());
 
-	m->aplicar();
-
-
-	glDisableClientState(GL_COLOR_ARRAY);
+	// glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
@@ -168,7 +167,7 @@ void Malla3D::draw_ModoFlat()
 
 void Malla3D::draw(modes mode, bool dibujado_vbo)
 {
-	m = new Material(Tupla4f( 0.2, 0.2, 0.2, 1.0), Tupla4f(0.0, 0.0, 1, 1.0), Tupla4f(1.0, 0.0, 0.5, 1.0), 128*0.6);
+	m = new Material(Tupla4f( 0.8, 0.6, 0.8, 1.0), Tupla4f(0.0, 0.0, 1, 1.0), Tupla4f(1.0, 0.0, 0.5, 1.0), 128*0.6);
 	draw_ModoSmooth();
 	// if(dibujado_vbo){
 	// 	draw_ModoDiferido(mode);
