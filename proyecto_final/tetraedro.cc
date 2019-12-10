@@ -32,8 +32,4 @@ Tetraedro::Tetraedro()
     }
 
 	this->generarNormales();
-
-	for(int i=0; i<this->normalsv.size(); i++) {
-		std::cout << this->normalsv[i] << std::endl;
-	}
 }

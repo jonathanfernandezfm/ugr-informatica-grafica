@@ -2,13 +2,13 @@
 //
 // Informática Gráfica (Grado Informática)
 //
-// Archivo: Cubo.h
+// Archivo: Paralelepipedo.h
 
 //
 // #############################################################################
 
-#ifndef CUBO_H_INCLUDED
-#define CUBO_H_INCLUDED
+#ifndef PARALELEPIPEDO_H_INCLUDED
+#define PARALELEPIPEDO_H_INCLUDED
 
 #include "aux.h"
 
@@ -19,13 +19,13 @@
 // *****************************************************************************
 
 // *****************************************************************************
-// Cubo con centro en el origen y lado unidad por defecto
+// Paralelepipedo con centro en el origen y lado unidad por defecto
 // (tiene 9 vertices y 6 caras)
 
-class Cubo : public Malla3D
+class Paralelepipedo : public Malla3D
 {
    public:
-   Cubo(float l=1, bool reverse=false) ;
+   Paralelepipedo(float ancho=1, float largo=1, float a=1, bool reverse=false) ;
 
 } ;
 

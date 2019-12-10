@@ -4,6 +4,7 @@
 #include "ejes.h"
 #include "malla.h"
 #include "cubo.h"
+#include "paralelepipedo.h"
 #include "tetraedro.h"
 #include "objply.h"
 #include "objrevolucion.h"
@@ -64,6 +65,9 @@ class Escena
         Cilindro *cilindro = nullptr;
         Cono *cono = nullptr;
         Esfera *esfera = nullptr;
+
+        // Proyecto
+        Paralelepipedo *paredes = nullptr;
 
         LuzDireccional *luzDireccional = nullptr;
         LuzPosicional *luzPosicional = nullptr;

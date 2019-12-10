@@ -15,6 +15,10 @@ Escena::Escena()
    Observer_angle_x = 0.0;
    Observer_angle_y = 0.0;
    ejes.changeAxisSize(5000);
+
+   paredes = new Paralelepipedo(100, 100, 30, true);
+   paredes->setMaterial(new Material(Tupla4f( 1, 0.8, 0.8, 1.0), Tupla4f(0.0, 0.0, 0.0, 0.0), Tupla4f(0.0, 0.0, 0.0, 0.0), 128*0.6));
+
    cubo = new Cubo();
    tetraedro = new Tetraedro();
    ply = new ObjPLY("./plys/beethoven.ply");
@@ -97,14 +101,19 @@ void Escena::dibujar()
    glLineWidth(1);
    ejes.draw();
    
-
    // luzDireccional->activar();
    // luzPosicional->activar();
 
    // ******** PR3 **************
    luzDireccional->activar();
    luzPosicional->activar();
-   glPolygonMode(GL_FRONT, GL_FILL);
+   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+   glPushMatrix();
+      glTranslatef(-50, 0, -50);
+      paredes->draw(LIGHT, dibujado_vbo);
+   glPopMatrix();
+
    objrev->draw(LIGHT, dibujado_vbo);
    glPushMatrix();
       glTranslatef(2, 0, 0);

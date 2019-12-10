@@ -1,20 +1,20 @@
 #include "aux.h"
 #include "malla.h"
-#include "cubo.h"
+#include "paralelepipedo.h"
 
-Cubo::Cubo(float lado, bool reverse)
+Paralelepipedo::Paralelepipedo(float ancho, float largo, float altura, bool reverse)
 {
     // inicializar la tabla de vértices
 
     vertex = {
-        {0.0f, 0.0f, lado}, // 001
-        {lado, 0.0f, lado}, // 101
-        {lado, lado, lado}, // 111
-        {0.0f, lado, lado}, // 011
-        {lado, 0.0f, 0.0f}, // 100
-        {lado, lado, 0.0f}, // 110
+        {0.0f, 0.0f, largo}, // 001
+        {ancho, 0.0f, largo}, // 101
+        {ancho, altura, largo}, // 111
+        {0.0f, altura, largo}, // 011
+        {ancho, 0.0f, 0.0f}, // 100
+        {ancho, altura, 0.0f}, // 110
         {0.0f, 0.0f, 0.0f}, // 000
-        {0.0f, lado, 0.0f}  // 010
+        {0.0f, altura, 0.0f}  // 010
     };
 
     // inicializar la tabla de caras o triángulos:
