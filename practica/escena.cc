@@ -22,6 +22,9 @@ Escena::Escena()
    objrev->setMaterial(new Material(Tupla4f( 1, 1, 1, 1.0), Tupla4f(0.0, 0.0, 0.0, 0.0), Tupla4f(0.0, 0.0, 0.0, 0.0), 128*0.6));
    objrev1 = new ObjRevolucion("./plys/peon.ply", 100, true);
    objrev1->setMaterial(new Material(Tupla4f( 1.0, 0.2, 0.1, 0.1), Tupla4f(0.0, 0.0, 1, 1.0), Tupla4f(0.0, 0.0, 0.0, 0.0), 128*0.6));
+   semiesfera = new Semiesfera(100, 100, 1);
+   semiesfera->setMaterial(new Material(Tupla4f( 1.0, 0.2, 0.1, 0.1), Tupla4f(0.0, 0.0, 1, 1.0), Tupla4f(0.0, 0.0, 0.0, 0.0), 128*0.6));
+   ventilador = new Ventilador();
 
    // std::vector<Tupla3f> vector;
 
@@ -105,7 +108,9 @@ void Escena::dibujar()
    luzDireccional->activar();
    luzPosicional->activar();
    glPolygonMode(GL_FRONT, GL_FILL);
-   objrev->draw(LIGHT, dibujado_vbo);
+   // semiesfera->draw(LIGHT, dibujado_vbo);
+   //objrev->draw(LIGHT, dibujado_vbo);
+   ventilador->draw();
    glPushMatrix();
       glTranslatef(2, 0, 0);
       objrev1->draw(LIGHT, dibujado_vbo);
@@ -574,4 +579,11 @@ void Escena::change_observer()
    glTranslatef(0.0, 0.0, -Observer_distance);
    glRotatef(Observer_angle_y, 0.0, 1.0, 0.0);
    glRotatef(Observer_angle_x, 1.0, 0.0, 0.0);
+}
+
+void Escena::animarVentilador()
+{
+   ventilador->girar();
+   ventilador->balancear();
+   ventilador->estirar();
 }

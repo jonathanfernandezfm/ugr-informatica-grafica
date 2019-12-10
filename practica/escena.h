@@ -13,6 +13,8 @@
 #include "luz_direccional.h"
 #include "luz_posicional.h"
 #include "enums.h"
+#include "semiesfera.h"
+#include "ventilador.h"
 
 typedef enum
 {
@@ -64,6 +66,8 @@ class Escena
         Cilindro *cilindro = nullptr;
         Cono *cono = nullptr;
         Esfera *esfera = nullptr;
+        Semiesfera *semiesfera = nullptr;
+        Ventilador *ventilador = nullptr;
 
         LuzDireccional *luzDireccional = nullptr;
         LuzPosicional *luzPosicional = nullptr;
@@ -79,5 +83,6 @@ class Escena
         // Interacción con la escena
         bool teclaPulsada(unsigned char Tecla1, int x, int y);
         void teclaEspecial(int Tecla1, int x, int y);
+        void animarVentilador();
 };
 #endif
