@@ -98,7 +98,6 @@ void Malla3D::draw_ModoDiferido(modes mode)
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     /* CARAS */
-	
 	if(mode == CHESS){
 		std::vector<Tupla3i> faceschess1, faceschess2;
 		int cont = 0;
@@ -140,25 +139,36 @@ void Malla3D::draw_ModoDiferido(modes mode)
 
 void Malla3D::draw_ModoSmooth()
 {
+	glEnable(GL_LIGHTING);
 	m->aplicar();
 
 	glShadeModel(GL_SMOOTH);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, vertex.data());
-	// glEnableClientState(GL_COLOR_ARRAY);
-	// glColorPointer(3, GL_FLOAT, 0, colors.data());
 	glEnableClientState( GL_NORMAL_ARRAY );
 	glNormalPointer(GL_FLOAT, 0, normalsv.data() );
 	glDrawElements(GL_TRIANGLES, faces.size() * 3, GL_UNSIGNED_INT, faces.data());
 
-	// glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisable(GL_LIGHTING);
 }
 
 void Malla3D::draw_ModoFlat()
 {
+	glEnable(GL_LIGHTING);
+	m->aplicar();
 
+	glShadeModel(GL_FLAT);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, vertex.data());
+	glEnableClientState( GL_NORMAL_ARRAY );
+	glNormalPointer(GL_FLOAT, 0, normalsv.data() );
+	glDrawElements(GL_TRIANGLES, faces.size() * 3, GL_UNSIGNED_INT, faces.data());
+
+	glDisableClientState(GL_NORMAL_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisable(GL_LIGHTING);
 }
 
 // -----------------------------------------------------------------------------
@@ -167,14 +177,15 @@ void Malla3D::draw_ModoFlat()
 
 void Malla3D::draw(modes mode, bool dibujado_vbo)
 {
-	m = new Material(Tupla4f( 0.8, 0.6, 0.8, 1.0), Tupla4f(0.0, 0.0, 1, 1.0), Tupla4f(1.0, 0.0, 0.5, 1.0), 128*0.6);
-	draw_ModoSmooth();
-	// if(dibujado_vbo){
-	// 	draw_ModoDiferido(mode);
-	// }else{
-	// 	draw_ModoInmediato(mode);
-	// }
-	
+	if(mode == LIGHT) {
+		draw_ModoSmooth();
+	} else {
+		if(dibujado_vbo){
+			draw_ModoDiferido(mode);
+		}else{
+			draw_ModoInmediato(mode);
+		}
+	}	
 }
 
 GLuint Malla3D::crearVBO(GLuint tipo_vbo, GLuint tamanio_bytes, GLvoid *puntero_ram)
@@ -217,4 +228,8 @@ void Malla3D::generarNormales()
 	for(int i=0; i<normalsv.size(); i++){
 		normalsv[i] = normalsv[i].normalized();
 	}
+}
+
+void Malla3D::setMaterial(Material *m){
+	this->m = m;
 }

@@ -53,13 +53,14 @@ class Escena
         bool dibujado_vbo = false;
 
         menu modoMenu = NADA;
+        modes modoDraw = SOLID;
 
         // Objetos de la escena
         Ejes ejes;
         Cubo *cubo = nullptr;           // es importante inicializarlo a 'nullptr'
         Tetraedro *tetraedro = nullptr; // es importante inicializarlo a 'nullptr'
         ObjPLY *ply = nullptr;
-        ObjRevolucion *objrev = nullptr;
+        ObjRevolucion *objrev = nullptr, *objrev1 = nullptr;
         Cilindro *cilindro = nullptr;
         Cono *cono = nullptr;
         Esfera *esfera = nullptr;

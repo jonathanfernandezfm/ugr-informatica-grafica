@@ -44,7 +44,7 @@ public:
 
    void generarNormales();
 
-   void setMaterial( Material m );
+   void setMaterial( Material *m );
 
 protected:
    void calcular_normales(); // calcula tabla de normales de vértices (práctica 3)

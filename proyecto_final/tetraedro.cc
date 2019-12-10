@@ -31,5 +31,9 @@ Tetraedro::Tetraedro()
         colors2.push_back({0.0f, 0.0f, 1.0f});
     }
 
-	//this->generarNormales();
+	this->generarNormales();
+
+	for(int i=0; i<this->normalsv.size(); i++) {
+		std::cout << this->normalsv[i] << std::endl;
+	}
 }

@@ -19,7 +19,10 @@ Escena::Escena()
    tetraedro = new Tetraedro();
    ply = new ObjPLY("./plys/beethoven.ply");
    objrev = new ObjRevolucion("./plys/peon.ply", 100, true);
-   
+   objrev->setMaterial(new Material(Tupla4f( 1, 1, 1, 1.0), Tupla4f(0.0, 0.0, 0.0, 0.0), Tupla4f(0.0, 0.0, 0.0, 0.0), 128*0.6));
+   objrev1 = new ObjRevolucion("./plys/peon.ply", 100, true);
+   objrev1->setMaterial(new Material(Tupla4f( 1.0, 0.2, 0.1, 0.1), Tupla4f(0.0, 0.0, 1, 1.0), Tupla4f(0.0, 0.0, 0.0, 0.0), 128*0.6));
+
    // std::vector<Tupla3f> vector;
 
    // // y
@@ -42,17 +45,17 @@ Escena::Escena()
    cono = new Cono(10, 10, 1, 1);
    esfera = new Esfera(100, 100, 1);
 
-   luzDireccional = new LuzDireccional(
-      {20*M_PI/180, 20*M_PI/180},
-      GL_LIGHT2,
+   luzPosicional = new LuzPosicional(
+      {2.0, 2.0, 2.0},
+      GL_LIGHT1,
       {1.0f, 1.0f, 1.0f, 1.0f},
       {1.0f, 1.0f, 1.0f, 1.0f},
       {1.0f, 1.0f, 1.0f, 1.0f}
    );
 
-   luzPosicional = new LuzPosicional(
-      {2.0, 2.0, 2.0},
-      GL_LIGHT1,
+   luzDireccional = new LuzDireccional(
+      {20*M_PI/180, 20*M_PI/180},
+      GL_LIGHT2,
       {1.0f, 1.0f, 1.0f, 1.0f},
       {1.0f, 1.0f, 1.0f, 1.0f},
       {1.0f, 1.0f, 1.0f, 1.0f}
@@ -93,153 +96,195 @@ void Escena::dibujar()
    change_observer();
    glLineWidth(1);
    ejes.draw();
-   glEnable(GL_LIGHTING);
+   
 
-   luzDireccional->activar();
+   // luzDireccional->activar();
    // luzPosicional->activar();
 
-   objrev->draw(CHESS, dibujado_vbo);
-
-   if(chess){
-      glPolygonMode(GL_FRONT, GL_FILL);
-      if(showTetraedro)
-         tetraedro->draw(CHESS, dibujado_vbo);
-      glPushMatrix();
+   // ******** PR3 **************
+   luzDireccional->activar();
+   luzPosicional->activar();
+   glPolygonMode(GL_FRONT, GL_FILL);
+   objrev->draw(LIGHT, dibujado_vbo);
+   glPushMatrix();
       glTranslatef(2, 0, 0);
-      if(showCubo)
-         cubo->draw(CHESS, dibujado_vbo);
-      glPopMatrix();
-      glPushMatrix();
-      glTranslatef(-3,0,0);
-      if(showPly)
-         ply->draw(CHESS, dibujado_vbo);
-      glPopMatrix();
-      
-      if(showRevolucion){
-         glPushMatrix();
-            glTranslatef(4,0,0);
-            objrev->draw(CHESS, dibujado_vbo);
-         glPopMatrix();
-         glPushMatrix();
-            glTranslatef(0,0,2);
-            cilindro->draw(CHESS, dibujado_vbo);
-         glPopMatrix();
-         glPushMatrix();
-            glTranslatef(0,0,4);
-            cono->draw(CHESS, dibujado_vbo);
-         glPopMatrix();
-         glPushMatrix();
-            glTranslatef(2,0,2);
-            esfera->draw(CHESS, dibujado_vbo);
-         glPopMatrix();
-      }
-   }else{
-      if (points){
-         glPointSize(5);
-         glPolygonMode(GL_FRONT, GL_POINT);
+      objrev1->draw(LIGHT, dibujado_vbo);
+   glPopMatrix();
+   // ******** PR3 **************
+   
+   if(iluminacion){
+      glPolygonMode(GL_FRONT, GL_FILL);
          if(showTetraedro)
-            tetraedro->draw(POINTS, dibujado_vbo);
+            tetraedro->draw(LIGHT, dibujado_vbo);
          glPushMatrix();
          glTranslatef(2, 0, 0);
          if(showCubo)
-            cubo->draw(POINTS, dibujado_vbo);         
+            cubo->draw(LIGHT, dibujado_vbo);
          glPopMatrix();
          glPushMatrix();
          glTranslatef(-3,0,0);
          if(showPly)
-            ply->draw(POINTS, dibujado_vbo);
+            ply->draw(LIGHT, dibujado_vbo);
          glPopMatrix();
+         
          if(showRevolucion){
             glPushMatrix();
                glTranslatef(4,0,0);
-               objrev->draw(POINTS, dibujado_vbo);
+               objrev->draw(LIGHT, dibujado_vbo);
             glPopMatrix();
             glPushMatrix();
                glTranslatef(0,0,2);
-               cilindro->draw(POINTS, dibujado_vbo);
+               cilindro->draw(LIGHT, dibujado_vbo);
             glPopMatrix();
             glPushMatrix();
                glTranslatef(0,0,4);
-               cono->draw(POINTS, dibujado_vbo);
+               cono->draw(LIGHT, dibujado_vbo);
             glPopMatrix();
             glPushMatrix();
                glTranslatef(2,0,2);
-               esfera->draw(POINTS, dibujado_vbo);
+               esfera->draw(LIGHT, dibujado_vbo);
             glPopMatrix();
          }
-      }
-
-      if (solid){
+   } else {
+      if(chess){
          glPolygonMode(GL_FRONT, GL_FILL);
          if(showTetraedro)
-            tetraedro->draw(SOLID, dibujado_vbo);
+            tetraedro->draw(CHESS, dibujado_vbo);
          glPushMatrix();
          glTranslatef(2, 0, 0);
          if(showCubo)
-            cubo->draw(SOLID, dibujado_vbo);         
+            cubo->draw(CHESS, dibujado_vbo);
          glPopMatrix();
          glPushMatrix();
          glTranslatef(-3,0,0);
          if(showPly)
-            ply->draw(SOLID, dibujado_vbo);
+            ply->draw(CHESS, dibujado_vbo);
          glPopMatrix();
+         
          if(showRevolucion){
             glPushMatrix();
                glTranslatef(4,0,0);
-               objrev->draw(SOLID, dibujado_vbo);
+               objrev->draw(CHESS, dibujado_vbo);
             glPopMatrix();
             glPushMatrix();
                glTranslatef(0,0,2);
-               cilindro->draw(SOLID, dibujado_vbo);
+               cilindro->draw(CHESS, dibujado_vbo);
             glPopMatrix();
             glPushMatrix();
                glTranslatef(0,0,4);
-               cono->draw(SOLID, dibujado_vbo);
+               cono->draw(CHESS, dibujado_vbo);
             glPopMatrix();
             glPushMatrix();
                glTranslatef(2,0,2);
-               esfera->draw(SOLID, dibujado_vbo);
+               esfera->draw(CHESS, dibujado_vbo);
             glPopMatrix();
          }
-      }
+      }else{
+         if (points){
+            glPointSize(5);
+            glPolygonMode(GL_FRONT, GL_POINT);
+            if(showTetraedro)
+               tetraedro->draw(POINTS, dibujado_vbo);
+            glPushMatrix();
+            glTranslatef(2, 0, 0);
+            if(showCubo)
+               cubo->draw(POINTS, dibujado_vbo);         
+            glPopMatrix();
+            glPushMatrix();
+            glTranslatef(-3,0,0);
+            if(showPly)
+               ply->draw(POINTS, dibujado_vbo);
+            glPopMatrix();
+            if(showRevolucion){
+               glPushMatrix();
+                  glTranslatef(4,0,0);
+                  objrev->draw(POINTS, dibujado_vbo);
+               glPopMatrix();
+               glPushMatrix();
+                  glTranslatef(0,0,2);
+                  cilindro->draw(POINTS, dibujado_vbo);
+               glPopMatrix();
+               glPushMatrix();
+                  glTranslatef(0,0,4);
+                  cono->draw(POINTS, dibujado_vbo);
+               glPopMatrix();
+               glPushMatrix();
+                  glTranslatef(2,0,2);
+                  esfera->draw(POINTS, dibujado_vbo);
+               glPopMatrix();
+            }
+         }
 
-      if (lines){
-         glLineWidth(3);
-         glPolygonMode(GL_FRONT, GL_LINE);
-         if(showTetraedro)
-            tetraedro->draw(LINES, dibujado_vbo);
-         glPushMatrix();
-         glTranslatef(2, 0, 0);
-         if(showCubo)
-            cubo->draw(LINES, dibujado_vbo);         
-         glPopMatrix();
-         glPushMatrix();
-         glTranslatef(-3,0,0);
-         if(showPly)
-            ply->draw(LINES, dibujado_vbo);
-         glPopMatrix();
-         if(showRevolucion){
+         if (solid){
+            glPolygonMode(GL_FRONT, GL_FILL);
+            if(showTetraedro)
+               tetraedro->draw(SOLID, dibujado_vbo);
             glPushMatrix();
-               glTranslatef(4,0,0);
-               objrev->draw(LINES, dibujado_vbo);
+            glTranslatef(2, 0, 0);
+            if(showCubo)
+               cubo->draw(SOLID, dibujado_vbo);         
             glPopMatrix();
             glPushMatrix();
-               glTranslatef(0,0,2);
-               cilindro->draw(LINES, dibujado_vbo);
+            glTranslatef(-3,0,0);
+            if(showPly)
+               ply->draw(SOLID, dibujado_vbo);
+            glPopMatrix();
+            if(showRevolucion){
+               glPushMatrix();
+                  glTranslatef(4,0,0);
+                  objrev->draw(SOLID, dibujado_vbo);
+               glPopMatrix();
+               glPushMatrix();
+                  glTranslatef(0,0,2);
+                  cilindro->draw(SOLID, dibujado_vbo);
+               glPopMatrix();
+               glPushMatrix();
+                  glTranslatef(0,0,4);
+                  cono->draw(SOLID, dibujado_vbo);
+               glPopMatrix();
+               glPushMatrix();
+                  glTranslatef(2,0,2);
+                  esfera->draw(SOLID, dibujado_vbo);
+               glPopMatrix();
+            }
+         }
+
+         if (lines){
+            glLineWidth(3);
+            glPolygonMode(GL_FRONT, GL_LINE);
+            if(showTetraedro)
+               tetraedro->draw(LINES, dibujado_vbo);
+            glPushMatrix();
+            glTranslatef(2, 0, 0);
+            if(showCubo)
+               cubo->draw(LINES, dibujado_vbo);         
             glPopMatrix();
             glPushMatrix();
-               glTranslatef(0,0,4);
-               cono->draw(LINES, dibujado_vbo);
+            glTranslatef(-3,0,0);
+            if(showPly)
+               ply->draw(LINES, dibujado_vbo);
             glPopMatrix();
-            glPushMatrix();
-               glTranslatef(2,0,2);
-               esfera->draw(LINES, dibujado_vbo);
-            glPopMatrix();
+            if(showRevolucion){
+               glPushMatrix();
+                  glTranslatef(4,0,0);
+                  objrev->draw(LINES, dibujado_vbo);
+               glPopMatrix();
+               glPushMatrix();
+                  glTranslatef(0,0,2);
+                  cilindro->draw(LINES, dibujado_vbo);
+               glPopMatrix();
+               glPushMatrix();
+                  glTranslatef(0,0,4);
+                  cono->draw(LINES, dibujado_vbo);
+               glPopMatrix();
+               glPushMatrix();
+                  glTranslatef(2,0,2);
+                  esfera->draw(LINES, dibujado_vbo);
+               glPopMatrix();
+            }
          }
       }
    }
-
-   glDisable(GL_LIGHTING);
 }
 
 //**************************************************************************
