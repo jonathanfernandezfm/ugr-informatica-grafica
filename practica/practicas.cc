@@ -88,6 +88,23 @@ void special_keys( int tecla, int x, int y )
 }
 
 //***************************************************************************
+// Funcion llamada cuando se produce aprieta una tecla especial
+//
+// el evento manda a la funcion:
+// codigo de la tecla
+// posicion x del raton
+// posicion y del raton
+
+//***************************************************************************
+
+void funcion_idle( )
+{
+	if (escena!=NULL)
+		escena->animarVentilador();
+	glutPostRedisplay();
+}
+
+//***************************************************************************
 // Programa principal
 //
 // Se encarga de iniciar la ventana, asignar las funciones e comenzar el
@@ -136,6 +153,9 @@ int main( int argc, char **argv )
 
    // asignación de la funcion llamada "tecla_Especial" al evento correspondiente
    glutSpecialFunc( special_keys );
+
+   // funcion Idle para ANIMAR
+   glutIdleFunc( funcion_idle );
 
    // inicialización de librería GLEW (solo en Linux)
    #ifdef LINUX

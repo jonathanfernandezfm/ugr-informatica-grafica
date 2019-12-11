@@ -140,7 +140,9 @@ void Malla3D::draw_ModoDiferido(modes mode)
 void Malla3D::draw_ModoSmooth()
 {
 	glEnable(GL_LIGHTING);
-	m->aplicar();
+
+	if(m != nullptr)
+		m->aplicar();
 
 	glShadeModel(GL_SMOOTH);
 	glEnableClientState(GL_VERTEX_ARRAY);

@@ -13,13 +13,16 @@
 #include "luz_direccional.h"
 #include "luz_posicional.h"
 #include "enums.h"
+#include "semiesfera.h"
+#include "ventilador.h"
 
 typedef enum
 {
     NADA,
     SELOBJETO,
     SELVISUALIZACION,
-    SELDIBUJADO
+    SELDIBUJADO,
+    SELANIMACIONES
 } menu;
 
 class Escena
@@ -48,9 +51,13 @@ class Escena
         bool points = false, lines = false, solid = false, chess = false, iluminacion = false;
         bool panelIluminacion = false;
         std::vector<bool> luces = {false, false, false, false, false, false, false};
+        LuzPosicional *luz1 = nullptr, *luz3 = nullptr, *luz4 = nullptr, *luz5 = nullptr, *luz6 = nullptr, *luz7 = nullptr;
+        LuzDireccional *luz2 = nullptr;
         bool movingAlpha = false, movingBeta = false;
         float alphaAngle = 0, betaAngle = 0;
         bool dibujado_vbo = false;
+        bool animar = true;
+        bool modificandoGiro = false, modificandoBalanceo = false, modificandoEstiramiento = false;
 
         menu modoMenu = NADA;
         modes modoDraw = SOLID;
@@ -64,6 +71,8 @@ class Escena
         Cilindro *cilindro = nullptr;
         Cono *cono = nullptr;
         Esfera *esfera = nullptr;
+        Semiesfera *semiesfera = nullptr;
+        Ventilador *ventilador = nullptr;
 
         LuzDireccional *luzDireccional = nullptr;
         LuzPosicional *luzPosicional = nullptr;
@@ -79,5 +88,6 @@ class Escena
         // Interacción con la escena
         bool teclaPulsada(unsigned char Tecla1, int x, int y);
         void teclaEspecial(int Tecla1, int x, int y);
+        void animarVentilador();
 };
 #endif
