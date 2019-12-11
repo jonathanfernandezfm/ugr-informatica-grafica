@@ -37,10 +37,7 @@ class Ventilador
         void modificarVelocidadBalanceo(float incremento);
         void modificarVelocidadEstiramiento(float incremento);
     private:
-        Paralelepipedo *aspa1 = nullptr;
-        Paralelepipedo *aspa2 = nullptr;
-        Paralelepipedo *aspa3 = nullptr;
-        Paralelepipedo *aspa4 = nullptr;
+        Paralelepipedo *aspa = nullptr;
 
         Semiesfera *semiesfera = nullptr;
 

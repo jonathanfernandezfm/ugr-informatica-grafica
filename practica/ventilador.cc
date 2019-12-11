@@ -4,15 +4,9 @@
 
 Ventilador::Ventilador()
 {
-    aspa1 = new Paralelepipedo(5, 1, 0.1);
-    aspa2 = new Paralelepipedo(5, 1, 0.1);
-    aspa3 = new Paralelepipedo(5, 1, 0.1);
-    aspa4 = new Paralelepipedo(5, 1, 0.1);
-    aspa1->setMaterial(new Material(Tupla4f( 1.0, 1.0, 0.1, 0.1), Tupla4f(0.0, 0.0, 1, 1.0), Tupla4f(0.0, 0.0, 0.0, 0.0), 128*0.6));
-    aspa2->setMaterial(new Material(Tupla4f( 1.0, 1.0, 0.1, 0.1), Tupla4f(0.0, 0.0, 1, 1.0), Tupla4f(0.0, 0.0, 0.0, 0.0), 128*0.6));
-    aspa3->setMaterial(new Material(Tupla4f( 1.0, 1.0, 0.1, 0.1), Tupla4f(0.0, 0.0, 1, 1.0), Tupla4f(0.0, 0.0, 0.0, 0.0), 128*0.6));
-    aspa4->setMaterial(new Material(Tupla4f( 1.0, 1.0, 0.1, 0.1), Tupla4f(0.0, 0.0, 1, 1.0), Tupla4f(0.0, 0.0, 0.0, 0.0), 128*0.6));
-
+    aspa = new Paralelepipedo(5, 1, 0.1);
+    aspa->setMaterial(new Material(Tupla4f( 1.0, 1.0, 0.1, 0.1), Tupla4f(0.0, 0.0, 1, 1.0), Tupla4f(0.0, 0.0, 0.0, 0.0), 128*0.6));
+    
     semiesfera = new Semiesfera(50, 50, 0.75);
     semiesfera->setMaterial(new Material(Tupla4f( 0.0, 1.0, 0.1, 0.1), Tupla4f(0.0, 0.0, 1, 1.0), Tupla4f(0.0, 0.0, 0.0, 0.0), 128*0.6));
 
@@ -41,25 +35,25 @@ void Ventilador::draw()
         glPushMatrix();
             glRotatef(10, 1, 0, 0);
             glTranslatef(0.1, 0.15, -0.5);
-            aspa1->draw(LIGHT, false);
+            aspa->draw(LIGHT, false);
         glPopMatrix();
         glPushMatrix();
             glRotatef(90, 0, 1, 0);
             glRotatef(10, 1, 0, 0);
             glTranslatef(0.1, 0.15, -0.5);
-            aspa2->draw(LIGHT, false);
+            aspa->draw(LIGHT, false);
         glPopMatrix();
         glPushMatrix();
             glRotatef(180, 0, 1, 0);
             glRotatef(10, 1, 0, 0);
             glTranslatef(0.1, 0.15, -0.5);
-            aspa3->draw(LIGHT, false);
+            aspa->draw(LIGHT, false);
         glPopMatrix();
         glPushMatrix();
             glRotatef(270, 0, 1, 0);
             glRotatef(10, 1, 0, 0);
             glTranslatef(0.1, 0.15, -0.5);
-            aspa4->draw(LIGHT, false);
+            aspa->draw(LIGHT, false);
         glPopMatrix();
     glPopMatrix();
 }
@@ -103,14 +97,17 @@ void Ventilador::estirar()
 void Ventilador::modificarVelocidadGiro(float incremento)
 {
     incrementoGiro += incremento;
+    if(incrementoGiro < 0) incrementoGiro = 0;
 }
 
 void Ventilador::modificarVelocidadEstiramiento(float incremento)
 {
     incrementoEstirar += incremento;
+    if(incrementoEstirar < 0) incrementoEstirar = 0;
 }
 
 void Ventilador::modificarVelocidadBalanceo(float incremento)
 {
     incrementoBalanceo += incremento;
+    if(incrementoBalanceo < 0) incrementoBalanceo = 0;
 }

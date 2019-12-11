@@ -21,7 +21,8 @@ typedef enum
     NADA,
     SELOBJETO,
     SELVISUALIZACION,
-    SELDIBUJADO
+    SELDIBUJADO,
+    SELANIMACIONES
 } menu;
 
 class Escena
@@ -56,6 +57,7 @@ class Escena
         float alphaAngle = 0, betaAngle = 0;
         bool dibujado_vbo = false;
         bool animar = true;
+        bool modificandoGiro = false, modificandoBalanceo = false, modificandoEstiramiento = false;
 
         menu modoMenu = NADA;
         modes modoDraw = SOLID;

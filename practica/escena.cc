@@ -353,9 +353,11 @@ bool Escena::teclaPulsada(unsigned char tecla, int x, int y)
    string clear = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
    string menuObjeto = "***SELECCION DE OBJETO***\n\t'C': Cubo\n\t'T': Tetraedro\n\t'R': Revolucion\n\t'P': PLY\n\t'Q': Salir";
    string menuVisualizacion = "***SELECCION DE MODO DE VISUALIZACION***\n\t'P': Puntos\n\t'L': Lineas\n\t'S': Solido\n\t'A': Ajedrez\n\t'I': Iluminacion\n\t'J': Animacion\n\t'+': +Velocidad\n\t'-': -Velocidad\n\t'Q': Salir";
+   string menuAnimacion = "***SELECCION DE ANIMACIONES***\n\t'1': Giro Ventilador\n\t'2': Balanceo Ventilador\n\t'3': Estiramiento Ventilador\n\t'Q': Salir";
    string menuDibujado = "***SELECCION DE MODO DE DIBUJADO***\n\t'1': glDrawElements\n\t'2': VBOs\n\t'Q': Salir";
-   string menuSeleccion = "***Menu***\n\t'O': SELECION DE OBJETO\n\t'V': SELECCION MODO VISUALIZACION\n\t'D': SELECCION MODO DIBUJADO\n\t'Q': Salir";
-   string menuIluminacion = "***ILUMINACION***\n\t";
+   string menuSeleccion = "***Menu***\n\t'O': SELECION DE OBJETO\n\t'V': SELECCION MODO VISUALIZACION\n\t'D': SELECCION MODO DIBUJADO\n\t'A': ANIMACIONES\n\t'Q': Salir (PROGRAMA)";
+   string menuIluminacion = "***ILUMINACION***\n\t'I': Activar luces\n\t'1'...'7': Activar luz i\n\t'A': Variar alpha\n\t'B': Variar beta\n\t'Q': Salir";
+   string menuAnimacionMod = "***MODIFICANDO ANIMACION***\n\t'+': + velocidad\n\t'-': - velocidad\n\t'Q': Salir";
 
    if (modoMenu == SELOBJETO)
    {
@@ -442,7 +444,7 @@ bool Escena::teclaPulsada(unsigned char tecla, int x, int y)
                cout << menuVisualizacion << endl;
                break;
             default:
-               cout << clear << menuIluminacion << "'I': Activar luces\n\t'1'...'7': Activar luz i\n\t'A': Variar alpha\n\t'B': Variar beta" << endl;
+               cout << clear << menuIluminacion << endl;
                break;
          }
       } else {
@@ -518,6 +520,65 @@ bool Escena::teclaPulsada(unsigned char tecla, int x, int y)
             break;
       }
    }
+   else if (modoMenu == SELANIMACIONES)
+   {
+      if(modificandoGiro || modificandoBalanceo || modificandoEstiramiento) {
+         switch (toupper(tecla))
+         {
+            case '+':
+               if(modificandoGiro) ventilador->modificarVelocidadGiro(0.1);
+               if(modificandoBalanceo) ventilador->modificarVelocidadBalanceo(0.1);
+               if(modificandoEstiramiento) ventilador->modificarVelocidadEstiramiento(0.001);
+               cout << clear;
+               cout << menuAnimacionMod << endl;
+               break;
+            case '-':
+               if(modificandoGiro) ventilador->modificarVelocidadGiro(-0.1);
+               if(modificandoBalanceo) ventilador->modificarVelocidadBalanceo(-0.1);
+               if(modificandoEstiramiento) ventilador->modificarVelocidadEstiramiento(-0.001);
+               cout << clear;
+               cout << menuAnimacionMod << endl;
+               break;
+            case 'Q':
+               modificandoGiro = false;
+               modificandoBalanceo = false;
+               modificandoEstiramiento = false;
+               cout << clear;
+               cout << menuAnimacion << endl;
+               break;
+            default:
+               cout << clear;
+               cout << menuAnimacionMod << endl;
+         }
+      }else{
+         switch (toupper(tecla))
+         {
+            case '1':
+               modificandoGiro = !modificandoGiro;
+               cout << clear;
+               cout << menuAnimacionMod << endl;
+               break;
+            case '2':
+               modificandoBalanceo = !modificandoBalanceo;
+               cout << clear;
+               cout << menuAnimacionMod << endl;
+               break;
+            case '3':
+               modificandoEstiramiento = !modificandoEstiramiento;
+               cout << clear;
+               cout << menuAnimacionMod << endl;
+               break;
+            case 'Q':
+               modoMenu = NADA;
+               cout << clear;
+               cout << menuSeleccion << endl;
+               break;
+            default:
+               cout << clear;
+               cout << menuAnimacion << endl;
+         }
+      }
+   }
    else if (modoMenu == NADA)
    {
       switch (toupper(tecla))
@@ -543,7 +604,11 @@ bool Escena::teclaPulsada(unsigned char tecla, int x, int y)
             cout << clear;
             cout << menuDibujado << endl;
             break;
-            // COMPLETAR con los diferentes opciones de teclado
+         case 'A':
+            modoMenu = SELANIMACIONES;
+            cout << clear;
+            cout << menuAnimacion << endl;
+            break;
          default:
             cout << clear;
             cout << menuSeleccion << endl;
