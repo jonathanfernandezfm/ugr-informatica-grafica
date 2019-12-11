@@ -23,10 +23,10 @@ Ventilador::Ventilador()
 void Ventilador::draw()
 {
     glPushMatrix();
-        glTranslatef(0, -incremento, 0);
+        glTranslatef(0, -altura, 0);
         glPushMatrix();
             glTranslatef(0, -0.1, 0);
-            glScalef(1, 1+incremento, 1);
+            glScalef(1, 1+altura, 1);
             cilindro->draw(LIGHT, false);
         glPopMatrix();
 
@@ -66,18 +66,18 @@ void Ventilador::draw()
 
 void Ventilador::girar()
 {
-    giro += 0.5;    
+    giro += incrementoGiro;    
 }
 
 void Ventilador::balancear()
 {
     if(movingRight) {
-        balanceo += 0.1;
+        balanceo += incrementoBalanceo;
         if(balanceo >= 10) {
             movingRight = 0;
         }
     } else {
-        balanceo -= 0.1;
+        balanceo -= incrementoBalanceo;
         if(balanceo <= -10) {
             movingRight = 1;
         }
@@ -87,15 +87,30 @@ void Ventilador::balancear()
 void Ventilador::estirar()
 {
     if(goingUp) {
-        incremento += 0.001;
-        if(incremento >= 1) {
+        altura += incrementoEstirar;
+        if(altura >= 1) {
             goingUp = 0;
         }
     } else {
-        incremento -= 0.001;
-        if(incremento <= -0.5) {
+        altura -= incrementoEstirar;
+        if(altura <= -0.5) {
             goingUp = 1;
         }
     }
     
+}
+
+void Ventilador::modificarVelocidadGiro(float incremento)
+{
+    incrementoGiro += incremento;
+}
+
+void Ventilador::modificarVelocidadEstiramiento(float incremento)
+{
+    incrementoEstirar += incremento;
+}
+
+void Ventilador::modificarVelocidadBalanceo(float incremento)
+{
+    incrementoBalanceo += incremento;
 }
