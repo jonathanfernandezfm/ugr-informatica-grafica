@@ -15,17 +15,21 @@ Escena::Escena()
    Observer_angle_x = 0.0;
    Observer_angle_y = 0.0;
    ejes.changeAxisSize(5000);
-
-   paredes = new Paralelepipedo(100, 100, 30, true);
-   paredes->setMaterial(new Material(Tupla4f( 1, 0.8, 0.8, 1.0), Tupla4f(0.0, 0.0, 0.0, 0.0), Tupla4f(0.0, 0.0, 0.0, 0.0), 128*0.6));
-
    cubo = new Cubo();
+   cubo->setMaterial(new Material(Tupla4f( 1.0, 0.0, 0.0, 1.0), Tupla4f(1.0, 0.0, 0.0, 0.0), Tupla4f(0.0, 0.0, 0.0, 0.0), 128*0.6));
+   // cubo->setTextura(new Textura("assets/text-madera.jpg"));
    tetraedro = new Tetraedro();
    ply = new ObjPLY("./plys/beethoven.ply");
    objrev = new ObjRevolucion("./plys/peon.ply", 100, true);
    objrev->setMaterial(new Material(Tupla4f( 1, 1, 1, 1.0), Tupla4f(0.0, 0.0, 0.0, 0.0), Tupla4f(0.0, 0.0, 0.0, 0.0), 128*0.6));
    objrev1 = new ObjRevolucion("./plys/peon.ply", 100, true);
    objrev1->setMaterial(new Material(Tupla4f( 1.0, 0.2, 0.1, 0.1), Tupla4f(0.0, 0.0, 1, 1.0), Tupla4f(0.0, 0.0, 0.0, 0.0), 128*0.6));
+   semiesfera = new Semiesfera(100, 100, 1);
+   semiesfera->setMaterial(new Material(Tupla4f( 1.0, 0.2, 0.1, 0.1), Tupla4f(0.0, 0.0, 1, 1.0), Tupla4f(0.0, 0.0, 0.0, 0.0), 128*0.6));
+   ventilador = new Ventilador();
+
+   paredes = new Paralelepipedo(50, 50, 10, true);
+   paredes->setMaterial(new Material(Tupla4f( 1, 0.8, 0.8, 1.0), Tupla4f(0.0, 0.0, 0.0, 0.0), Tupla4f(0.0, 0.0, 0.0, 0.0), 128*0.6));
 
    // std::vector<Tupla3f> vector;
 
@@ -49,7 +53,8 @@ Escena::Escena()
    cono = new Cono(10, 10, 1, 1);
    esfera = new Esfera(100, 100, 1);
 
-   luzPosicional = new LuzPosicional(
+
+   luz1 = new LuzPosicional(
       {2.0, 2.0, 2.0},
       GL_LIGHT1,
       {1.0f, 1.0f, 1.0f, 1.0f},
@@ -57,9 +62,43 @@ Escena::Escena()
       {1.0f, 1.0f, 1.0f, 1.0f}
    );
 
-   luzDireccional = new LuzDireccional(
+   luz2 = new LuzDireccional(
       {20*M_PI/180, 20*M_PI/180},
       GL_LIGHT2,
+      {1.0f, 1.0f, 1.0f, 1.0f},
+      {1.0f, 1.0f, 1.0f, 1.0f},
+      {1.0f, 1.0f, 1.0f, 1.0f}
+   );
+
+   // LUZ3 VENTILADOR
+
+   luz4 = new LuzPosicional(
+      {2.0, 2.0, 2.0},
+      GL_LIGHT4,
+      {1.0f, 1.0f, 1.0f, 1.0f},
+      {1.0f, 1.0f, 1.0f, 1.0f},
+      {1.0f, 1.0f, 1.0f, 1.0f}
+   );
+
+   luz5 = new LuzPosicional(
+      {2.0, 2.0, 2.0},
+      GL_LIGHT5,
+      {1.0f, 1.0f, 1.0f, 1.0f},
+      {1.0f, 1.0f, 1.0f, 1.0f},
+      {1.0f, 1.0f, 1.0f, 1.0f}
+   );
+
+   luz6 = new LuzPosicional(
+      {2.0, 2.0, 2.0},
+      GL_LIGHT6,
+      {1.0f, 1.0f, 1.0f, 1.0f},
+      {1.0f, 1.0f, 1.0f, 1.0f},
+      {1.0f, 1.0f, 1.0f, 1.0f}
+   );
+
+   luz7 = new LuzPosicional(
+      {2.0, 2.0, 2.0},
+      GL_LIGHT7,
       {1.0f, 1.0f, 1.0f, 1.0f},
       {1.0f, 1.0f, 1.0f, 1.0f},
       {1.0f, 1.0f, 1.0f, 1.0f}
@@ -105,194 +144,115 @@ void Escena::dibujar()
    // luzPosicional->activar();
 
    // ******** PR3 **************
-   luzDireccional->activar();
-   luzPosicional->activar();
-   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-   glPushMatrix();
-      glTranslatef(-50, 0, -50);
-      paredes->draw(LIGHT, dibujado_vbo);
-   glPopMatrix();
-
-   objrev->draw(LIGHT, dibujado_vbo);
-   glPushMatrix();
-      glTranslatef(2, 0, 0);
-      objrev1->draw(LIGHT, dibujado_vbo);
-   glPopMatrix();
+   
    // ******** PR3 **************
+
+   // ******** PR4 **************
+   // glPolygonMode(GL_FRONT, GL_FILL);
+   
+   // cubo->draw(SOLID, dibujado_vbo);
+
+   // ******** PR4 **************
    
    if(iluminacion){
-      glPolygonMode(GL_FRONT, GL_FILL);
-         if(showTetraedro)
-            tetraedro->draw(LIGHT, dibujado_vbo);
-         glPushMatrix();
-         glTranslatef(2, 0, 0);
-         if(showCubo)
-            cubo->draw(LIGHT, dibujado_vbo);
-         glPopMatrix();
-         glPushMatrix();
-         glTranslatef(-3,0,0);
-         if(showPly)
-            ply->draw(LIGHT, dibujado_vbo);
-         glPopMatrix();
-         
-         if(showRevolucion){
-            glPushMatrix();
-               glTranslatef(4,0,0);
-               objrev->draw(LIGHT, dibujado_vbo);
-            glPopMatrix();
-            glPushMatrix();
-               glTranslatef(0,0,2);
-               cilindro->draw(LIGHT, dibujado_vbo);
-            glPopMatrix();
-            glPushMatrix();
-               glTranslatef(0,0,4);
-               cono->draw(LIGHT, dibujado_vbo);
-            glPopMatrix();
-            glPushMatrix();
-               glTranslatef(2,0,2);
-               esfera->draw(LIGHT, dibujado_vbo);
-            glPopMatrix();
-         }
+      //glEnable(GL_LIGHT0);
+      if(luces[0]) luz1->activar(); else luz1->desactivar();
+      if(luces[1]) luz2->activar(); else luz2->desactivar();
+      if(luces[2]) ventilador->luzVentilador->activar(); else ventilador->luzVentilador->desactivar();
+      if(luces[3]) luz4->activar(); else luz4->desactivar();
+      if(luces[4]) luz5->activar(); else luz5->desactivar(); 
+      if(luces[5]) luz6->activar(); else luz6->desactivar();
+      if(luces[6]) luz7->activar(); else luz7->desactivar();
+
+      pintar(LIGHT);      
    } else {
       if(chess){
-         glPolygonMode(GL_FRONT, GL_FILL);
-         if(showTetraedro)
-            tetraedro->draw(CHESS, dibujado_vbo);
-         glPushMatrix();
-         glTranslatef(2, 0, 0);
-         if(showCubo)
-            cubo->draw(CHESS, dibujado_vbo);
-         glPopMatrix();
-         glPushMatrix();
-         glTranslatef(-3,0,0);
-         if(showPly)
-            ply->draw(CHESS, dibujado_vbo);
-         glPopMatrix();
-         
-         if(showRevolucion){
-            glPushMatrix();
-               glTranslatef(4,0,0);
-               objrev->draw(CHESS, dibujado_vbo);
-            glPopMatrix();
-            glPushMatrix();
-               glTranslatef(0,0,2);
-               cilindro->draw(CHESS, dibujado_vbo);
-            glPopMatrix();
-            glPushMatrix();
-               glTranslatef(0,0,4);
-               cono->draw(CHESS, dibujado_vbo);
-            glPopMatrix();
-            glPushMatrix();
-               glTranslatef(2,0,2);
-               esfera->draw(CHESS, dibujado_vbo);
-            glPopMatrix();
-         }
+         pintar(CHESS);
       }else{
          if (points){
-            glPointSize(5);
-            glPolygonMode(GL_FRONT, GL_POINT);
-            if(showTetraedro)
-               tetraedro->draw(POINTS, dibujado_vbo);
-            glPushMatrix();
-            glTranslatef(2, 0, 0);
-            if(showCubo)
-               cubo->draw(POINTS, dibujado_vbo);         
-            glPopMatrix();
-            glPushMatrix();
-            glTranslatef(-3,0,0);
-            if(showPly)
-               ply->draw(POINTS, dibujado_vbo);
-            glPopMatrix();
-            if(showRevolucion){
-               glPushMatrix();
-                  glTranslatef(4,0,0);
-                  objrev->draw(POINTS, dibujado_vbo);
-               glPopMatrix();
-               glPushMatrix();
-                  glTranslatef(0,0,2);
-                  cilindro->draw(POINTS, dibujado_vbo);
-               glPopMatrix();
-               glPushMatrix();
-                  glTranslatef(0,0,4);
-                  cono->draw(POINTS, dibujado_vbo);
-               glPopMatrix();
-               glPushMatrix();
-                  glTranslatef(2,0,2);
-                  esfera->draw(POINTS, dibujado_vbo);
-               glPopMatrix();
-            }
+            pintar(POINTS);
          }
-
          if (solid){
-            glPolygonMode(GL_FRONT, GL_FILL);
-            if(showTetraedro)
-               tetraedro->draw(SOLID, dibujado_vbo);
-            glPushMatrix();
-            glTranslatef(2, 0, 0);
-            if(showCubo)
-               cubo->draw(SOLID, dibujado_vbo);         
-            glPopMatrix();
-            glPushMatrix();
-            glTranslatef(-3,0,0);
-            if(showPly)
-               ply->draw(SOLID, dibujado_vbo);
-            glPopMatrix();
-            if(showRevolucion){
-               glPushMatrix();
-                  glTranslatef(4,0,0);
-                  objrev->draw(SOLID, dibujado_vbo);
-               glPopMatrix();
-               glPushMatrix();
-                  glTranslatef(0,0,2);
-                  cilindro->draw(SOLID, dibujado_vbo);
-               glPopMatrix();
-               glPushMatrix();
-                  glTranslatef(0,0,4);
-                  cono->draw(SOLID, dibujado_vbo);
-               glPopMatrix();
-               glPushMatrix();
-                  glTranslatef(2,0,2);
-                  esfera->draw(SOLID, dibujado_vbo);
-               glPopMatrix();
-            }
+            pintar(SOLID);
          }
-
          if (lines){
-            glLineWidth(3);
-            glPolygonMode(GL_FRONT, GL_LINE);
-            if(showTetraedro)
-               tetraedro->draw(LINES, dibujado_vbo);
-            glPushMatrix();
-            glTranslatef(2, 0, 0);
-            if(showCubo)
-               cubo->draw(LINES, dibujado_vbo);         
-            glPopMatrix();
-            glPushMatrix();
-            glTranslatef(-3,0,0);
-            if(showPly)
-               ply->draw(LINES, dibujado_vbo);
-            glPopMatrix();
-            if(showRevolucion){
-               glPushMatrix();
-                  glTranslatef(4,0,0);
-                  objrev->draw(LINES, dibujado_vbo);
-               glPopMatrix();
-               glPushMatrix();
-                  glTranslatef(0,0,2);
-                  cilindro->draw(LINES, dibujado_vbo);
-               glPopMatrix();
-               glPushMatrix();
-                  glTranslatef(0,0,4);
-                  cono->draw(LINES, dibujado_vbo);
-               glPopMatrix();
-               glPushMatrix();
-                  glTranslatef(2,0,2);
-                  esfera->draw(LINES, dibujado_vbo);
-               glPopMatrix();
-            }
+            pintar(LINES);
          }
       }
+   }
+}
+
+void Escena::pintar(modes modo)
+{
+   switch(modo){
+      case CHESS:
+         glPolygonMode(GL_FRONT, GL_FILL);
+         break;
+      case SOLID:
+         glPolygonMode(GL_FRONT, GL_FILL);
+         break;
+      case POINTS:
+         glPointSize(5);
+         glPolygonMode(GL_FRONT, GL_POINT);
+         break;
+      case LINES:
+         glLineWidth(3);
+         glPolygonMode(GL_FRONT, GL_LINE);
+         break;
+      case LIGHT:
+         glPolygonMode(GL_FRONT, GL_FILL);
+         break;
+      default:
+         break;
+   }
+
+   glPushMatrix();
+      glTranslatef(-25, 0, -25);
+      paredes->draw(modo, dibujado_vbo);
+   glPopMatrix();
+
+   glPushMatrix();
+      glTranslatef(0, 10, 0);
+      ventilador->draw(modo);
+   glPopMatrix();
+
+   glPushMatrix();
+      glTranslatef(4, 1.4, 0);
+      objrev->draw(modo, dibujado_vbo);
+      glTranslatef(2, 0, 0);
+      objrev1->draw(modo, dibujado_vbo);
+   glPopMatrix();
+   
+   if(showTetraedro)
+      tetraedro->draw(modo, dibujado_vbo);
+   glPushMatrix();
+   glTranslatef(2, 0, 0);
+   if(showCubo)
+      cubo->draw(modo, dibujado_vbo);
+   glPopMatrix();
+   glPushMatrix();
+   glTranslatef(-3,0,0);
+   if(showPly)
+      ply->draw(modo, dibujado_vbo);
+   glPopMatrix();
+   
+   if(showRevolucion){
+      glPushMatrix();
+         glTranslatef(4,0,0);
+         objrev->draw(modo, dibujado_vbo);
+      glPopMatrix();
+      glPushMatrix();
+         glTranslatef(0,0,2);
+         cilindro->draw(modo, dibujado_vbo);
+      glPopMatrix();
+      glPushMatrix();
+         glTranslatef(0,0,4);
+         cono->draw(modo, dibujado_vbo);
+      glPopMatrix();
+      glPushMatrix();
+         glTranslatef(2,0,2);
+         esfera->draw(modo, dibujado_vbo);
+      glPopMatrix();
    }
 }
 
@@ -310,10 +270,12 @@ bool Escena::teclaPulsada(unsigned char tecla, int x, int y)
    bool salir = false;
    string clear = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
    string menuObjeto = "***SELECCION DE OBJETO***\n\t'C': Cubo\n\t'T': Tetraedro\n\t'R': Revolucion\n\t'P': PLY\n\t'Q': Salir";
-   string menuVisualizacion = "***SELECCION DE MODO DE VISUALIZACION***\n\t'P': Puntos\n\t'L': Lineas\n\t'S': Solido\n\t'A': Ajedrez\n\t'I': Iluminacion\n\t'Q': Salir";
+   string menuVisualizacion = "***SELECCION DE MODO DE VISUALIZACION***\n\t'P': Puntos\n\t'L': Lineas\n\t'S': Solido\n\t'A': Ajedrez\n\t'I': Iluminacion\n\t'J': Animacion\n\t'+': +Velocidad\n\t'-': -Velocidad\n\t'Q': Salir";
+   string menuAnimacion = "***SELECCION DE ANIMACIONES***\n\t'1': Giro Ventilador\n\t'2': Balanceo Ventilador\n\t'3': Estiramiento Ventilador\n\t'Q': Salir";
    string menuDibujado = "***SELECCION DE MODO DE DIBUJADO***\n\t'1': glDrawElements\n\t'2': VBOs\n\t'Q': Salir";
-   string menuSeleccion = "***Menu***\n\t'O': SELECION DE OBJETO\n\t'V': SELECCION MODO VISUALIZACION\n\t'D': SELECCION MODO DIBUJADO\n\t'Q': Salir";
-   string menuIluminacion = "***ILUMINACION***\n\t";
+   string menuSeleccion = "***Menu***\n\t'O': SELECION DE OBJETO\n\t'V': SELECCION MODO VISUALIZACION\n\t'D': SELECCION MODO DIBUJADO\n\t'A': ANIMACIONES\n\t'Q': Salir (PROGRAMA)";
+   string menuIluminacion = "***ILUMINACION***\n\t'I': Activar luces\n\t'1'...'7': Activar luz i\n\t'A': Variar alpha\n\t'B': Variar beta\n\t'Q': Salir";
+   string menuAnimacionMod = "***MODIFICANDO ANIMACION***\n\t'+': + velocidad\n\t'-': - velocidad\n\t'Q': Salir";
 
    if (modoMenu == SELOBJETO)
    {
@@ -400,7 +362,7 @@ bool Escena::teclaPulsada(unsigned char tecla, int x, int y)
                cout << menuVisualizacion << endl;
                break;
             default:
-               cout << clear << menuIluminacion << "'I': Activar luces\n\t'1'...'7': Activar luz i\n\t'A': Variar alpha\n\t'B': Variar beta" << endl;
+               cout << clear << menuIluminacion << endl;
                break;
          }
       } else {
@@ -424,7 +386,22 @@ bool Escena::teclaPulsada(unsigned char tecla, int x, int y)
                break;
             case 'I':
                panelIluminacion = !panelIluminacion;
-               cout << clear << menuIluminacion << "'I': Activar luces\n\t'1'...'7': Activar luz i\n\t'A': Variar alpha\n\t'B': Variar beta" << endl;
+               cout << clear << menuIluminacion << endl;
+               break;
+            case 'J':
+               animar = !animar;
+               cout << clear;
+               cout << menuVisualizacion << endl;
+               break;
+            case '+':
+               ventilador->modificarVelocidadGiro(0.1);
+               ventilador->modificarVelocidadBalanceo(0.1);
+               ventilador->modificarVelocidadEstiramiento(0.001);
+               break;
+            case '-':
+               ventilador->modificarVelocidadGiro(-0.1);
+               ventilador->modificarVelocidadBalanceo(-0.1);
+               ventilador->modificarVelocidadEstiramiento(-0.001);
                break;
             case 'Q':
                modoMenu = NADA;
@@ -461,6 +438,65 @@ bool Escena::teclaPulsada(unsigned char tecla, int x, int y)
             break;
       }
    }
+   else if (modoMenu == SELANIMACIONES)
+   {
+      if(modificandoGiro || modificandoBalanceo || modificandoEstiramiento) {
+         switch (toupper(tecla))
+         {
+            case '+':
+               if(modificandoGiro) ventilador->modificarVelocidadGiro(0.1);
+               if(modificandoBalanceo) ventilador->modificarVelocidadBalanceo(0.1);
+               if(modificandoEstiramiento) ventilador->modificarVelocidadEstiramiento(0.001);
+               cout << clear;
+               cout << menuAnimacionMod << endl;
+               break;
+            case '-':
+               if(modificandoGiro) ventilador->modificarVelocidadGiro(-0.1);
+               if(modificandoBalanceo) ventilador->modificarVelocidadBalanceo(-0.1);
+               if(modificandoEstiramiento) ventilador->modificarVelocidadEstiramiento(-0.001);
+               cout << clear;
+               cout << menuAnimacionMod << endl;
+               break;
+            case 'Q':
+               modificandoGiro = false;
+               modificandoBalanceo = false;
+               modificandoEstiramiento = false;
+               cout << clear;
+               cout << menuAnimacion << endl;
+               break;
+            default:
+               cout << clear;
+               cout << menuAnimacionMod << endl;
+         }
+      }else{
+         switch (toupper(tecla))
+         {
+            case '1':
+               modificandoGiro = !modificandoGiro;
+               cout << clear;
+               cout << menuAnimacionMod << endl;
+               break;
+            case '2':
+               modificandoBalanceo = !modificandoBalanceo;
+               cout << clear;
+               cout << menuAnimacionMod << endl;
+               break;
+            case '3':
+               modificandoEstiramiento = !modificandoEstiramiento;
+               cout << clear;
+               cout << menuAnimacionMod << endl;
+               break;
+            case 'Q':
+               modoMenu = NADA;
+               cout << clear;
+               cout << menuSeleccion << endl;
+               break;
+            default:
+               cout << clear;
+               cout << menuAnimacion << endl;
+         }
+      }
+   }
    else if (modoMenu == NADA)
    {
       switch (toupper(tecla))
@@ -486,7 +522,11 @@ bool Escena::teclaPulsada(unsigned char tecla, int x, int y)
             cout << clear;
             cout << menuDibujado << endl;
             break;
-            // COMPLETAR con los diferentes opciones de teclado
+         case 'A':
+            modoMenu = SELANIMACIONES;
+            cout << clear;
+            cout << menuAnimacion << endl;
+            break;
          default:
             cout << clear;
             cout << menuSeleccion << endl;
@@ -503,10 +543,10 @@ void Escena::teclaEspecial(int Tecla1, int x, int y)
    {
    case GLUT_KEY_LEFT:
       if(movingAlpha) {
-         luzDireccional->variarAnguloAlpha(-10.0f);
+         luz2->variarAnguloAlpha(-10.0f);
          cout << endl << "-Alpha" << endl;
       } else if(movingBeta) {
-         luzDireccional->variarAnguloBeta(-10.0f);
+         luz2->variarAnguloBeta(-10.0f);
          cout << endl << "-Beta" << endl;
       } else {
          Observer_angle_y--;
@@ -515,10 +555,10 @@ void Escena::teclaEspecial(int Tecla1, int x, int y)
       break;
    case GLUT_KEY_RIGHT:
       if(movingAlpha) {
-         luzDireccional->variarAnguloAlpha(10.0f);
+         luz2->variarAnguloAlpha(10.0f);
          cout << endl << "+Alpha" << endl;
       } else if(movingBeta) {
-         luzDireccional->variarAnguloBeta(10.0f);
+         luz2->variarAnguloBeta(10.0f);
          cout << endl << "-Beta" << endl;
       } else {
          Observer_angle_y++;
@@ -583,4 +623,13 @@ void Escena::change_observer()
    glTranslatef(0.0, 0.0, -Observer_distance);
    glRotatef(Observer_angle_y, 0.0, 1.0, 0.0);
    glRotatef(Observer_angle_x, 1.0, 0.0, 0.0);
+}
+
+void Escena::animarVentilador()
+{
+   if(animar){
+      ventilador->girar();
+      ventilador->balancear();
+      ventilador->estirar();
+   }
 }

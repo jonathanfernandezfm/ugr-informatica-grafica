@@ -17,18 +17,17 @@ Ventilador::Ventilador()
     cilindro->setMaterial(new Material(Tupla4f( 0.7, 0.6, 0.3, 0.1), Tupla4f(0.0, 0.0, 1, 1.0), Tupla4f(0.0, 0.0, 0.0, 0.0), 128*0.6));
 
     luzVentilador = new LuzPosicional(
-      {0.0, 7.0, 0.0},
+      {0.0, 0.0, 0.0},
       GL_LIGHT3,
-      {1.0f, 1.0f, 1.0f, 0.5f},
-      {1.0f, 1.0f, 1.0f, 0.5f},
-      {1.0f, 1.0f, 1.0f, 0.5f}
+      {1.0f, 1.0f, 1.0f, 1.0f},
+      {1.0f, 1.0f, 1.0f, 1.0f},
+      {1.0f, 1.0f, 1.0f, 1.0f}
    );
 }
 
 void Ventilador::draw(modes mode)
 {
     glPushMatrix();
-        glTranslatef(0, 10, 0);
         glPushMatrix();
             semiesferaPequena->draw(mode, false);
         glPopMatrix();

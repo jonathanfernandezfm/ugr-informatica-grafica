@@ -16,6 +16,7 @@ class Luz
 {
     public:
         void activar();
+        void desactivar();
 
     protected:
         Tupla4f posicion;

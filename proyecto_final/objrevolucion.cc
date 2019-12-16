@@ -513,4 +513,3 @@ Tupla3f ObjRevolucion::rotateZ(Tupla3f vertice, double angle){
 
    return out;
 }
-
