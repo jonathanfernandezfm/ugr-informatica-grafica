@@ -8,5 +8,9 @@ void Luz::activar()
 	glLightfv(id, GL_SPECULAR, (GLfloat*) & colorEspecular);
 	glLightfv(id, GL_POSITION, (GLfloat*) & posicion);
     glEnable(id);
+}
 
+void Luz::desactivar()
+{
+	glDisable(id);
 }

@@ -11,6 +11,7 @@
 #define MALLA3D_H_INCLUDED
 
 #include "material.h"
+#include "textura.h"
 #include "aux.h"
 #include "enums.h"
 
@@ -24,6 +25,7 @@ class Malla3D
 {
 private:
    Material *m = nullptr;
+   Textura *textura = nullptr;
 public:
    // dibuja el objeto en modo inmediato
    void draw_ModoInmediato(modes mode);
@@ -46,6 +48,8 @@ public:
 
    void setMaterial( Material *m );
 
+   void setTextura( Textura *t );
+
 protected:
    void calcular_normales(); // calcula tabla de normales de vértices (práctica 3)
 
@@ -59,6 +63,7 @@ protected:
    std::vector<Tupla3f> colors2;
    std::vector<Tupla3f> normalsf;
    std::vector<Tupla3f> normalsv;
+   std::vector<Tupla2f> cf;
 };
 
 #endif

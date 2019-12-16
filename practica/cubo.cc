@@ -42,5 +42,12 @@ Cubo::Cubo(float lado)
         colors2.push_back({0.0f, 0.0f, 1.0f});
     }
 
+    cf = {
+        {0, 0},
+        {1, 0},
+        {0, 1},
+        {1, 1}
+    };
+
     this->generarNormales();
 }

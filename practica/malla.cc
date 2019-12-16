@@ -38,6 +38,8 @@ void Malla3D::draw_ModoInmediato(modes mode)
 		// glDrawElements(GL_TRIANGLES, faces.size()/2 * 3, GL_UNSIGNED_INT, faces.data()+faces.size()/2);
 		glDisableClientState(GL_VERTEX_ARRAY);
 	}else{
+		// textura->activar();
+
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glVertexPointer(3, GL_FLOAT, 0, vertex.data());
 		glEnableClientState(GL_COLOR_ARRAY);
@@ -59,6 +61,7 @@ void Malla3D::draw_ModoInmediato(modes mode)
 
 		glDrawElements(GL_TRIANGLES, faces.size() * 3, GL_UNSIGNED_INT, faces.data());
 		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	}
 }
 // -----------------------------------------------------------------------------
@@ -234,4 +237,8 @@ void Malla3D::generarNormales()
 
 void Malla3D::setMaterial(Material *m){
 	this->m = m;
+}
+
+void Malla3D::setTextura(Textura *t){
+	this->textura = t;
 }

@@ -56,7 +56,7 @@ class Escena
         bool movingAlpha = false, movingBeta = false;
         float alphaAngle = 0, betaAngle = 0;
         bool dibujado_vbo = false;
-        bool animar = true;
+        bool animar = false;
         bool modificandoGiro = false, modificandoBalanceo = false, modificandoEstiramiento = false;
 
         menu modoMenu = NADA;
@@ -84,6 +84,7 @@ class Escena
 
         // Dibujar
         void dibujar();
+        void pintar(modes modo);
 
         // Interacción con la escena
         bool teclaPulsada(unsigned char Tecla1, int x, int y);
