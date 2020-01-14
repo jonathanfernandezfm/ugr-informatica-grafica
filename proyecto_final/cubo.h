@@ -26,7 +26,7 @@ class Cubo : public Malla3D
 {
    public:
    Cubo(float l=1) ;
-
+   void setColor(float R, float G, float B);
 } ;
 
 

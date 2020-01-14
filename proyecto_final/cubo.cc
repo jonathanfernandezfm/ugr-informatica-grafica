@@ -51,3 +51,11 @@ Cubo::Cubo(float lado)
 
     this->generarNormales();
 }
+
+void Cubo::setColor(float R, float G, float B)
+{
+    colors.clear();
+    for(int i=0; i<vertex.size(); i++){
+        colors.push_back({R, G, B});
+    }
+}

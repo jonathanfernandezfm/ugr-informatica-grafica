@@ -38,30 +38,30 @@ void Malla3D::draw_ModoInmediato(modes mode)
 		// glDrawElements(GL_TRIANGLES, faces.size()/2 * 3, GL_UNSIGNED_INT, faces.data()+faces.size()/2);
 		glDisableClientState(GL_VERTEX_ARRAY);
 	}else{
-		// textura->activar();
+		if(textura != nullptr){
+			textura->activar(cf, vertex);
+		} else {
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glVertexPointer(3, GL_FLOAT, 0, vertex.data());
+			glEnableClientState(GL_COLOR_ARRAY);
 
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(3, GL_FLOAT, 0, vertex.data());
-		glEnableClientState(GL_COLOR_ARRAY);
+			switch (mode)
+			{
+			case SOLID:
+				glColorPointer(3, GL_FLOAT, 0, colors.data());
+				break;
+			case LINES:
+				glColorPointer(3, GL_FLOAT, 0, colors1.data());
+				break;
+			case POINTS:
+				glColorPointer(3, GL_FLOAT, 0, colors2.data());
+				break;
+			default:
+				break;
+			}
 
-		switch (mode)
-		{
-		case SOLID:
-			glColorPointer(3, GL_FLOAT, 0, colors.data());
-			break;
-		case LINES:
-			glColorPointer(3, GL_FLOAT, 0, colors1.data());
-			break;
-		case POINTS:
-			glColorPointer(3, GL_FLOAT, 0, colors2.data());
-			break;
-		default:
-			break;
+			glDrawElements(GL_TRIANGLES, faces.size() * 3, GL_UNSIGNED_INT, faces.data());
 		}
-
-		glDrawElements(GL_TRIANGLES, faces.size() * 3, GL_UNSIGNED_INT, faces.data());
-		glDisableClientState(GL_VERTEX_ARRAY);
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	}
 }
 // -----------------------------------------------------------------------------

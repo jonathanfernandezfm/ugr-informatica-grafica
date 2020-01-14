@@ -1,6 +1,7 @@
 #ifndef _ESCENA_H
 #define _ESCENA_H
 
+#include <map>
 #include "ejes.h"
 #include "malla.h"
 #include "cubo.h"
@@ -16,6 +17,8 @@
 #include "semiesfera.h"
 #include "ventilador.h"
 #include "paralelepipedo.h"
+#include "cuadro.h"
+#include "camara.h"
 
 typedef enum
 {
@@ -23,7 +26,8 @@ typedef enum
     SELOBJETO,
     SELVISUALIZACION,
     SELDIBUJADO,
-    SELANIMACIONES
+    SELANIMACIONES,
+    SELCAMARA
 } menu;
 
 class Escena
@@ -75,10 +79,20 @@ class Escena
         Semiesfera *semiesfera = nullptr;
         Ventilador *ventilador = nullptr;
         Paralelepipedo *paredes = nullptr;
+        Cuadro *cuadro = nullptr;
 
+        Cubo *cubo_aux = nullptr;
+        // LUCES
         LuzDireccional *luzDireccional = nullptr;
         LuzPosicional *luzPosicional = nullptr;
 
+        // CAMARAS
+        Camara camara_ort;
+        Camara camara_pers;
+        Camara camara_aux;
+        int camaraActiva = 0;
+        std::vector<Camara> camaras = {};
+        int seleccionado = -1;
     public:
         Escena();
         void inicializar(int UI_window_width, int UI_window_height);
@@ -92,5 +106,13 @@ class Escena
         bool teclaPulsada(unsigned char Tecla1, int x, int y);
         void teclaEspecial(int Tecla1, int x, int y);
         void animarVentilador();
+
+        // CAMARAS
+        void moverCamara(int x, int y);
+        void zoomPositivo(float zoom);
+        void zoomNegativo(float zoom);
+        void escogerColor(int x, int y);
+
+        void procesarPixel(unsigned char*);
 };
 #endif

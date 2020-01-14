@@ -87,22 +87,56 @@ void special_keys( int tecla, int x, int y )
 	glutPostRedisplay();
 }
 
-//***************************************************************************
-// Funcion llamada cuando se produce aprieta una tecla especial
-//
-// el evento manda a la funcion:
-// codigo de la tecla
-// posicion x del raton
-// posicion y del raton
-
-//***************************************************************************
-
 void funcion_idle( )
 {
 	if (escena!=NULL)
 		escena->animarVentilador();
 	glutPostRedisplay();
 }
+
+int mouse = 0;
+int mouseX, mouseY;
+
+void clickRaton(int button, int state, int x, int y)
+{
+   if(button == GLUT_RIGHT_BUTTON){
+      if(state == GLUT_DOWN){
+         mouse = 1;
+         mouseX = x;
+         mouseY = y;
+      }else{
+         mouse = 0;
+      }
+      glutPostRedisplay();
+   }
+   else if ( button == 3 )
+   {
+      escena->zoomNegativo(1.2);
+      glutPostRedisplay();
+   }else if( button == 4 ){
+      escena->zoomPositivo(1.2);
+      glutPostRedisplay();
+   }
+   else if(button== GLUT_LEFT_BUTTON) {
+      if(state == GLUT_DOWN) {
+         mouse = 2;
+         mouseX=x;
+         mouseY=y;
+         escena->escogerColor(mouseX, mouseY);
+      }
+   }
+}
+
+void ratonMovido(int x, int y)
+{
+   if(mouse == 1)
+      escena->moverCamara(x-mouseX, y-mouseY);
+
+   mouseX = x;
+   mouseY = y;
+}
+
+
 
 //***************************************************************************
 // Programa principal
@@ -157,6 +191,12 @@ int main( int argc, char **argv )
    // funcion Idle para ANIMAR
    glutIdleFunc( funcion_idle );
 
+   // funcion para el raton click
+   glutMouseFunc (clickRaton);
+
+   // funcion para el raton mover
+   glutMotionFunc (ratonMovido); 
+
    // inicialización de librería GLEW (solo en Linux)
    #ifdef LINUX
    const GLenum codigoError = glewInit();
@@ -164,7 +204,7 @@ int main( int argc, char **argv )
    if ( codigoError != GLEW_OK ) // comprobar posibles errores
    {
       cout << "Imposible inicializar ’GLEW’, mensaje recibido: "
-             << glewGetErrorString(codigoError) << endl ;
+            << glewGetErrorString(codigoError) << endl ;
       exit(1) ;
    }
    #endif
