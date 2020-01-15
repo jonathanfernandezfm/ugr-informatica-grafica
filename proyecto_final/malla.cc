@@ -39,7 +39,15 @@ void Malla3D::draw_ModoInmediato(modes mode)
 		glDisableClientState(GL_VERTEX_ARRAY);
 	}else{
 		if(textura != nullptr){
-			textura->activar(cf, vertex);
+			glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glVertexPointer(3, GL_FLOAT, 0, vertex.data());
+			glTexCoordPointer( 2, GL_FLOAT, 0, cf.data());
+			textura->activar();
+			glDrawElements(GL_TRIANGLES, faces.size() * 3, GL_UNSIGNED_INT, faces.data());
+			glDisable(GL_TEXTURE_2D);
+			glDisableClientState(GL_VERTEX_ARRAY);
+			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		} else {
 			glEnableClientState(GL_VERTEX_ARRAY);
 			glVertexPointer(3, GL_FLOAT, 0, vertex.data());
@@ -61,6 +69,8 @@ void Malla3D::draw_ModoInmediato(modes mode)
 			}
 
 			glDrawElements(GL_TRIANGLES, faces.size() * 3, GL_UNSIGNED_INT, faces.data());
+			glDisableClientState(GL_VERTEX_ARRAY);
+			glDisableClientState(GL_COLOR_ARRAY);
 		}
 	}
 }
@@ -152,6 +162,13 @@ void Malla3D::draw_ModoSmooth()
 	glVertexPointer(3, GL_FLOAT, 0, vertex.data());
 	glEnableClientState( GL_NORMAL_ARRAY );
 	glNormalPointer(GL_FLOAT, 0, normalsv.data() );
+	if(textura != nullptr){
+		glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+		glTexCoordPointer( 2, GL_FLOAT, 0, cf.data());
+		textura->activar();
+		glDisable(GL_TEXTURE_2D);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	}
 	glDrawElements(GL_TRIANGLES, faces.size() * 3, GL_UNSIGNED_INT, faces.data());
 
 	glDisableClientState(GL_NORMAL_ARRAY);

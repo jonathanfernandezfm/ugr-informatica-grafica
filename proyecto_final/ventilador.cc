@@ -71,16 +71,16 @@ void Ventilador::draw(modes mode)
             glTranslatef(0.1, 0.15, -0.5);
             aspa->draw(mode, false);
         glPopMatrix();
-        
+        glPushMatrix();
+            glTranslatef(0.0, -3, 0.0);
+            if(luz)
+                luzVentilador->activar(); 
+            else
+                luzVentilador->desactivar(); 
+        glPopMatrix();
     glPopMatrix();
 
-    glPushMatrix();
-        glTranslatef(0.0, -3, 0.0);
-        if(luz)
-            luzVentilador->activar(); 
-        else
-            luzVentilador->desactivar(); 
-    glPopMatrix();
+    
 }
 
 void Ventilador::girar()

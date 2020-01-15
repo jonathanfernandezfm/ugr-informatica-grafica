@@ -22,7 +22,7 @@ class Textura
     public:
         Textura();
         Textura(std::string archivo);
-        void activar(std::vector<Tupla2f> cf, std::vector<Tupla3f> vertex);
+        void activar();
 };
 
 

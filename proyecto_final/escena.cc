@@ -29,7 +29,7 @@ Escena::Escena()
    ventilador = new Ventilador();
 
    cuadro = new Cuadro(2,2);
-   cuadro->setTextura(new Textura("assets/text-madera.jpg"));
+   cuadro->setTextura(new Textura("assets/test.jpg"));
 
    // paredes = new Paralelepipedo(50, 50, 10, true);
    // paredes->setMaterial(new Material(Tupla4f( 1, 0.8, 0.8, 1.0), Tupla4f(0.0, 0.0, 0.0, 0.0), Tupla4f(0.0, 0.0, 0.0, 0.0), 128*0.6));
@@ -215,6 +215,15 @@ void Escena::dibujar()
       }
 
    glEnable(GL_DITHER);
+
+   glPushMatrix();
+      glTranslatef(-1, 2.5, -2);
+      if(iluminacion){
+         cuadro->draw(LIGHT, dibujado_vbo);
+      }else{
+         cuadro->draw(SOLID, dibujado_vbo);
+      }
+   glPopMatrix();
 
    // ******** PR4 **************
    
@@ -775,7 +784,6 @@ void Escena::escogerColor(int x, int y)
 
    glGetIntegerv(GL_VIEWPORT, viewport);
    glReadPixels(x, viewport[3]-y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, &pixels);
-   printf(" valor x %d, valor y %d, color %d, %d, %d \n",x,y,pixels[0],pixels[1],pixels[2]);
 
    procesarPixel(pixels);
 
